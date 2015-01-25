@@ -23,7 +23,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
-public class MyWsAuthentification {
+public class MyWsSingleWithToken {
 	
 	private SOAPConnectionFactory soapConnectionFactory  = null;
 	private SOAPConnection soapConnection = null;
@@ -31,27 +31,25 @@ public class MyWsAuthentification {
 	private String url = "";
 	private static String namespace = "";
     private static String methode = "";
-    private static String username = "";
-    private static String password = "";
+    private static String token = "";
     
     private Document docReponse = null;
     
-    public MyWsAuthentification (String strURL, String strNameSpace, String strMethodeWeb, String strUsername, String strPassword){
-    	
-    	try {
+    public MyWsSingleWithToken (String strURL, String strNameSpace, String strMethodeWeb, String strToken){
+		
+		try {
 			// --- Enregistrement des variables ---
 			url = strURL;
 			namespace = strNameSpace;
 			methode = strMethodeWeb;
-			username = strUsername;
-			password = strPassword;
+			token = strToken;
 			
 			// --- Création de la connexion SOAP ---
 	        soapConnectionFactory = SOAPConnectionFactory.newInstance();
 	        soapConnection = soapConnectionFactory.createConnection();
 
 	        // --- Envoi du message SOAP au serveur ---    
-	        SOAPMessage soapResponse = soapConnection.call(createSOAPRequest(username, password), url);
+	        SOAPMessage soapResponse = soapConnection.call(createSOAPRequest(token), url);
 	        
 	        // --- On transforme la réponse SOAP en chaine de caractères ---
 	        String reponse_xml = getReponse(soapResponse);
@@ -61,12 +59,11 @@ public class MyWsAuthentification {
 	        docReponse = generateDocument(reponse_xml);
 	        		
 		} catch (Exception ex){
-			System.out.println("### MyWsAuthentification ### Erreur Envoi : " + ex.toString());
+			System.out.println("### MyWsDataset ### Erreur Envoi : " + ex.toString());
 		}
-    	
-    }
-
-    private static SOAPMessage createSOAPRequest(String strUsername, String strPassword) throws Exception {
+	}
+    
+    private static SOAPMessage createSOAPRequest(String strAuthenticatedToken) throws Exception {
         MessageFactory messageFactory = MessageFactory.newInstance();
         SOAPMessage soapMessage = messageFactory.createMessage();
         SOAPPart soapPart = soapMessage.getSOAPPart();
@@ -77,12 +74,12 @@ public class MyWsAuthentification {
         SOAPEnvelope envelope = soapPart.getEnvelope();
         envelope.addNamespaceDeclaration("example", serverURI);
         
+        System.out.println("Token = " + strAuthenticatedToken);
+        
         SOAPHeader soapHead = envelope.getHeader();
         SOAPElement soapHeadElem = soapHead.addChildElement("SecuredWebServiceHeader", "example");
-        SOAPElement soapBodyElem1 = soapHeadElem.addChildElement("Username", "example");
-        soapBodyElem1.addTextNode(strUsername);
-        SOAPElement soapBodyElem2 = soapHeadElem.addChildElement("Password", "example");
-        soapBodyElem2.addTextNode(strPassword);
+        SOAPElement soapBodyElem1 = soapHeadElem.addChildElement("AuthenticatedToken", "example");
+        soapBodyElem1.addTextNode(strAuthenticatedToken);
         
         /*
         Constructed SOAP Request Message:
@@ -105,7 +102,7 @@ public class MyWsAuthentification {
         return soapMessage;
     }
     
-    private String getReponse(SOAPMessage soapResponse){
+private String getReponse(SOAPMessage soapResponse){
 		
 		String xml = "";
 		
@@ -158,4 +155,5 @@ public class MyWsAuthentification {
 		
 		return list.item(0).getTextContent().toString();
 	}
+
 }
