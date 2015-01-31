@@ -56,7 +56,7 @@ public class MyWsAuthentification {
 	        // --- On transforme la réponse SOAP en chaine de caractères ---
 	        String reponse_xml = getReponse(soapResponse);
 	        
-	        System.out.println(reponse_xml);
+	        //System.out.println(reponse_xml);
 	        
 	        docReponse = generateDocument(reponse_xml);
 	        		
