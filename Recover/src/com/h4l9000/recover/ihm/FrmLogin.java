@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.Rectangle;
 import java.io.StringReader;
 import java.io.StringWriter;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -29,6 +30,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
+import com.h4l9000.recover.modules.ModGeneral;
 import com.h4l9000.recover.ws.MyWsAuthentification;
 import com.h4l9000.recover.ws.MyWsDataset;
 import com.h4l9000.recover.ws.MyWsSingleWithToken;
@@ -48,6 +50,8 @@ public class FrmLogin extends JFrame {
 	
 	private String token = "";
 	private String current_user = "";
+	
+	private ModGeneral gen = null;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -67,6 +71,10 @@ public class FrmLogin extends JFrame {
 	public FrmLogin() {
 		super();
 		initialize();
+		
+		// --- Initialisation du module général ---
+		gen = new ModGeneral();
+		labVersion.setText(gen.getCurrentVersion());
 		
 		
 		String url = "http://www.h4l9000.com/WsData.asmx";
@@ -182,9 +190,8 @@ public class FrmLogin extends JFrame {
 						MyWsAuthentification aut = new MyWsAuthentification("http://www.h4l9000.com/WsIdentification.asmx", "http://www.h4l9000.com/", "Login", username, password);
 						
 						reponse_login = aut.getToken("LoginResult");
-						
-						
-						if (reponse_login.compareTo("K0")!=0){
+												
+						if (reponse_login.compareTo("KO")!=0){
 							token = reponse_login;
 							current_user = username;
 									
@@ -198,9 +205,21 @@ public class FrmLogin extends JFrame {
 							reponse_maintenance = statut.getSingle("CheckMaintenanceResult");
 							System.out.println(reponse_maintenance);
 							
+							if (reponse_maintenance.compareTo("OUI")==0){
+								JOptionPane.showMessageDialog(FrmLogin.this, "Maintenance en cours. Veuillez vous reconnecter plus tard.", "Recover", JOptionPane.WARNING_MESSAGE);
+							} else {
+								if (reponse_version.compareTo(gen.getCurrentVersion())==0){
+									
+									System.out.println("Lancement du panneau principal...");
+									
+								} else {
+									JOptionPane.showMessageDialog(FrmLogin.this, "Identifiants incorrects", "Recover", JOptionPane.WARNING_MESSAGE);
+								}
+							}
 							
 						} else {
-							JOptionPane.showMessageDialog(FrmLogin.this, "Identifiants incorrects", "Recover", JOptionPane.WARNING_MESSAGE);
+							JOptionPane.showMessageDialog(FrmLogin.this, "Veuillez saisir vos identifiants", "Recover", JOptionPane.WARNING_MESSAGE);
+							pfMotDePasse.setText("");
 						}
 						
 						
