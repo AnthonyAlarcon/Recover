@@ -32,7 +32,6 @@ import org.xml.sax.InputSource;
 
 import com.h4l9000.recover.modules.ModGeneral;
 import com.h4l9000.recover.ws.MyWsAuthentification;
-import com.h4l9000.recover.ws.MyWsDataset;
 import com.h4l9000.recover.ws.MyWsSingleWithToken;
 
 public class FrmLogin extends JFrame {
@@ -74,14 +73,15 @@ public class FrmLogin extends JFrame {
 		
 		// --- Initialisation du module général ---
 		gen = new ModGeneral();
-		labVersion.setText(gen.getCurrentVersion());
-		
-		
-		String url = "http://www.h4l9000.com/WsData.asmx";
-		String namespace = "http://www.h4l9000.com/";
-		String methode = "ListeCycle";
+		labVersion.setText("Version " + gen.getCurrentVersion());
 		
 		FrmLogin.this.getRootPane().setDefaultButton(btnConnexion);
+		
+//		String url = "http://www.h4l9000.com/WsData.asmx";
+//		String namespace = "http://www.h4l9000.com/";
+//		String methode = "ListeCycle";
+		
+		
 		
 //		MyWsDataset ds = new MyWsDataset(url, namespace, methode);
 //		
@@ -211,6 +211,13 @@ public class FrmLogin extends JFrame {
 								if (reponse_version.compareTo(gen.getCurrentVersion())==0){
 									
 									System.out.println("Lancement du panneau principal...");
+									
+									FrmMain principal = new FrmMain(current_user, token);
+									principal.setLocation(100, 100);
+									principal.setVisible(true);
+									
+									// --- On masque le panneau de Login ---
+									FrmLogin.this.setVisible(false);
 									
 								} else {
 									JOptionPane.showMessageDialog(FrmLogin.this, "Identifiants incorrects", "Recover", JOptionPane.WARNING_MESSAGE);
