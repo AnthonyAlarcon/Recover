@@ -20,7 +20,7 @@ public class FrmMain extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
 	private JPanel jContentPane = null;
-	private JButton btnConnexion = null;
+	private JButton btnImporter = null;
 	private JLabel labVersion = null;
 	private JLabel labMaintenance = null;
 	
@@ -62,7 +62,7 @@ public class FrmMain extends JFrame {
 		if (jContentPane == null) {
 			jContentPane = new JPanel();
 			jContentPane.setLayout(null);
-			jContentPane.add(getBtnConnexion(), null);
+			jContentPane.add(getBtnImporter(), null);
 			labVersion = new JLabel("Version ");
 			labVersion.setBounds(new Rectangle(10, 446, 90, 20));
 			labVersion.setFont(new Font("Arial", Font.BOLD, 10));
@@ -79,18 +79,20 @@ public class FrmMain extends JFrame {
 		return jContentPane;
 	}
 	
-	private JButton getBtnConnexion() {
-		if (btnConnexion == null) {
-			btnConnexion = new JButton("Importer");
-			btnConnexion.setFont(new Font("Arial", Font.PLAIN, 12));
-			btnConnexion.setBounds(new Rectangle(27, 37, 206, 49));
-			btnConnexion.addActionListener(new java.awt.event.ActionListener() {
+	private JButton getBtnImporter() {
+		if (btnImporter == null) {
+			btnImporter = new JButton("Importer");
+			btnImporter.setFont(new Font("Arial", Font.PLAIN, 12));
+			btnImporter.setBounds(new Rectangle(27, 37, 206, 49));
+			btnImporter.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-					
+					FrmImporter import_texte = new FrmImporter(FrmMain.this);
+					import_texte.setLocationRelativeTo(null);
+					import_texte.setVisible(true);
 				}
 			});
 		}
-		return btnConnexion;
+		return btnImporter;
 	}
 	
 	private void ControleMaintenance(){
