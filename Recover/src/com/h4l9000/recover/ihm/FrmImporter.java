@@ -189,7 +189,7 @@ public class FrmImporter extends JFrame {
 												}
 												
 												if ((i==ligne_academie + 6) && (ligne_academie >0)){
-													// information non récupérée
+													// ligne non récupérée (Projet)
 												}
 												
 												if ((i==ligne_academie + 7) && (ligne_academie >0)){
@@ -213,6 +213,11 @@ public class FrmImporter extends JFrame {
 													System.out.println("TypeEtablissement ." + type_etablissement + ".  /  Ags ." + ags + ".");
 													System.out.println("DateAccesEch ." + date_acces_ech + ".  /  ProGc ." + pro_gc + ".");
 													System.out.println("DateGc ." + date_gc + ".  /  AsaGc ." + asa_gc + ".");
+												}
+												
+												// --- Ligne #2 ---
+												if ((i==ligne_academie + 14) && (ligne_academie >0)){
+													
 												}
 											}
 										}

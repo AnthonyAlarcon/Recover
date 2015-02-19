@@ -2,6 +2,7 @@ package com.h4l9000.recover.structures;
 
 public class StrucTexteLignes {
 	
+	// --- Ligne 1 ---
 	private int nom_debut = 0;
 	private int nom_fin = 0;
 	
@@ -25,6 +26,47 @@ public class StrucTexteLignes {
 	
 	private int asa_gc_debut = 0;
 	private int asa_gc_fin = 0;
+	
+	// --- Ligne 2 ---
+	private int prenom_debut = 0;
+	private int prenom_fin = 0;
+	
+	private int date_naissance_debut = 0;
+	private int date_naissance_fin = 0;
+	
+	private int note_inspection_debut = 0;
+	private int note_inspection_fin = 0;
+	
+	private int date_inspection_debut = 0;
+	private int date_inspection_fin = 0;
+	
+	private int mode_acces_ech_debut = 0;
+	private int mode_acces_ech_fin = 0;
+	
+	private int report_anciennete_debut = 0;
+	private int report_anciennete_fin = 0;
+	
+	private int pro_ch_debut = 0;
+	private int pro_ch_fin = 0;
+	
+	private int date_ch_debut = 0;
+	private int date_ch_fin = 0;
+	
+	private int asa_ch_debut = 0;
+	private int asa_ch_fin = 0;
+	
+	// --- Ligne 3 ---
+	private int code_discipline_debut = 0;
+	private int code_discipline_fin = 0;
+	
+	private int pro_an_debut = 0;
+	private int pro_an_fin = 0;
+	
+	private int date_an_debut = 0;
+	private int date_an_fin = 0;
+	
+	private int asa_an_debut = 0;
+	private int asa_an_fin = 0;
 
 	public StrucTexteLignes(String strModeAffectationValeurs){
 		
@@ -62,6 +104,47 @@ public class StrucTexteLignes {
 		
 		asa_gc_debut = 127;
 		asa_gc_fin = 131;
+		
+		// --- Ligne 2 ---
+		prenom_debut = 8;
+		prenom_fin = 25;
+		
+		date_naissance_debut = 26;
+		date_naissance_fin = 36;
+		
+		note_inspection_debut = 74;
+		note_inspection_fin = 79;
+		
+		date_inspection_debut = 82;
+		date_inspection_fin = 92;
+		
+		mode_acces_ech_debut = 94;
+		mode_acces_ech_fin = 97;
+		
+		report_anciennete_debut = 98;
+		report_anciennete_fin = 107;
+		
+		pro_ch_debut = 110;
+		pro_ch_fin = 113;
+		
+		date_ch_debut = 117;
+		date_ch_fin = 127;
+		
+		asa_ch_debut = 127;
+		asa_ch_fin = 131;
+		
+		// --- Ligne 3 ---
+		code_discipline_debut = 75;
+		code_discipline_fin = 80;
+		
+		pro_an_debut = 110;
+		pro_an_fin = 113;
+		
+		date_an_debut = 117;
+		date_an_fin = 1127;
+		
+		asa_an_debut = 127;
+		asa_an_fin = 131;
 	}
 	
 	private String loadValue(String strFichier){
