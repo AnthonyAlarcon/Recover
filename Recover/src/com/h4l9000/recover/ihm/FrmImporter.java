@@ -21,6 +21,7 @@ import javax.swing.border.EmptyBorder;
 
 import com.h4l9000.recover.modules.ModFiltre;
 import com.h4l9000.recover.modules.ModTexteEntete;
+import com.h4l9000.recover.modules.ModTexteLignes;
 import com.h4l9000.recover.structures.StrucTexteEntete;
 
 import javax.swing.JScrollPane;
@@ -100,6 +101,7 @@ public class FrmImporter extends JFrame {
 							
 							// --- Strucure du fichier texte ---
 							ModTexteEntete header = new ModTexteEntete("DEFAUT");
+							ModTexteLignes body = new ModTexteLignes("DEFAUT");
 							
 							// --- Ouverture de la fenêtre de sélection du fichier ---
 							JFileChooser fc = new JFileChooser();
@@ -196,7 +198,22 @@ public class FrmImporter extends JFrame {
 												}
 												
 												
-												
+												// --- Ligne #1 ---
+												if ((i==ligne_academie + 13) && (ligne_academie >0)){
+													String nom = body.getNom(ligne);
+													String rne = body.getRne(ligne);
+													String type_etablissement = body.getTypeEtablissement(ligne);
+													String ags = body.getAgs(ligne);
+													String date_acces_ech = body.getDateAccesEch(ligne);
+													String pro_gc = body.getProGc(ligne);
+													String date_gc = body.getDateGc(ligne);
+													String asa_gc = body.getAsaGc(ligne);
+													
+													System.out.println("Nom ." + nom + ".  /  Rne ." + rne + ".");
+													System.out.println("TypeEtablissement ." + type_etablissement + ".  /  Ags ." + ags + ".");
+													System.out.println("DateAccesEch ." + date_acces_ech + ".  /  ProGc ." + pro_gc + ".");
+													System.out.println("DateGc ." + date_gc + ".  /  AsaGc ." + asa_gc + ".");
+												}
 											}
 										}
 										
