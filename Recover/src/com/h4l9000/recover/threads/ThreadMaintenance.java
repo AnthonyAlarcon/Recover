@@ -30,10 +30,7 @@ public class ThreadMaintenance extends Thread {
 			while(maintenance.compareTo("NON")==0){
 				
 				maintenance = getMaintenance(token);
-				System.out.println(" ---> Maintenance = " + maintenance);
-				
 				update = getUpdate(token);
-				System.out.println(" ---> Update = " + update);
 				
 				System.out.println("Statut Maintenance = [" + maintenance + "] | Statut Update = [" + update + "]");
 				
@@ -41,20 +38,14 @@ public class ThreadMaintenance extends Thread {
 				if (maintenance.compareTo("OUI")==0){
 					
 					frmParent.setMaintenance(maintenance);
-										
-					// Ouverture de la fenêtre d'alerte
-//					DlgMaintenance msgalerte = new DlgMaintenance(frmParent);
-//					msgalerte.setModalityType(ModalityType.MODELESS);
-//					msgalerte.setLocation(50, 50);
-//					msgalerte.setVisible(true);
 					
-					//System.out.println("Déconnexion dans 1 minute");
+					// --- Décompte des 60 secondes ---
 					Thread.sleep(60000);
 					System.exit(0);
 				}
 				
 				// --- Comportement de l'appplication lors d'une mise à jour ---
-				//frmParent.getUpdateInProgress(update);
+				frmParent.setUpdate(update);
 				
 				// Contrôle toutes les minutes du statut de maintenance
 				Thread.sleep(60000);
@@ -62,9 +53,6 @@ public class ThreadMaintenance extends Thread {
 		} catch (Exception ex){
 			//System.out.println("ERREUR : " + ex.toString());
 		}
-		
-		
-		
 	}
 	
 	private String getMaintenance(String strToken){

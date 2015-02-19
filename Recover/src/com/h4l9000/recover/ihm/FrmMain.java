@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
 import com.h4l9000.recover.modules.ModGeneral;
@@ -27,12 +28,16 @@ public class FrmMain extends JFrame {
 
 	private ModGeneral gen = null;
 	
+	private DlgNotificationMaintenance notif_maintenance = null;
+	private DlgNotificationUpdate notif_update = null;
+	
 	public FrmMain(String strCurrentUser, String strToken) {
 		super();
 		initialize();
 
 		// --- Initialisation du statut de maintenance ---
 		setMaintenance("NON");
+		setUpdate("NON");
 		
 		// --- Affectation du Token ---
 		token = strToken;
@@ -65,6 +70,7 @@ public class FrmMain extends JFrame {
 			labMaintenance = new JLabel("");
 			labMaintenance.setBounds(new Rectangle(121, 446, 90, 20));
 			labMaintenance.setFont(new Font("Arial", Font.BOLD, 10));
+			labMaintenance.setHorizontalAlignment(SwingConstants.CENTER);
 			labMaintenance.setOpaque(true);
 			labMaintenance.setForeground(Color.white);
 			labMaintenance.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -115,13 +121,33 @@ public class FrmMain extends JFrame {
 						labMaintenance.setBackground(Color.red);
 						
 						// --- Affichage du panneau de notification ---
-						DlgNotificationMaintenance notif_maintenance = new DlgNotificationMaintenance();
+						notif_maintenance = new DlgNotificationMaintenance();
 						notif_maintenance.setVisible(true);
 					}
 				}
 				
 			}
-		});
+		});		
+	}
+	
+	public void setUpdate(String strStatut){
 		
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				
+				// --- Création de l'instance ---
+				if (notif_update==null){
+					notif_update = new DlgNotificationUpdate();
+				}
+				
+				if(strStatut.compareTo("NON")==0){	
+					notif_update.setVisible(false);				
+				} else {
+					if(strStatut.compareTo("OUI")==0){						
+						notif_update.setVisible(true);
+					}
+				}
+			}
+		});
 	}
 }
