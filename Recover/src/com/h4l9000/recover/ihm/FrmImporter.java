@@ -112,14 +112,8 @@ public class FrmImporter extends JFrame {
 							int returnVal = fc.showOpenDialog(FrmImporter.this);
 							
 							int ligne_academie = 0;
-							
-							
-							// --- Détecteur de position. On compte 4 position par feuille. ---
-							boolean position1 = false;
-							boolean position2 = false;
-							boolean position3 = false;
-							boolean position4 = false;
-							
+							int ponderation_position = 0;
+														
 							// --- L'utilisateur valide son choix ---
 							if (returnVal == JFileChooser.APPROVE_OPTION) {
 								
@@ -164,84 +158,101 @@ public class FrmImporter extends JFrame {
 													// --- Affectation de l'indice I associé à la ligne académie ---
 													ligne_academie = i;
 													
-													// --- Position1 OK ---
-													position1 = true;
+													// --- reset de la pondération ---
+													ponderation_position = 0;
 												}
 											}
 											
-											// --- Traitement de la Position #1 ---
-											if (position1 == true){
+											// --- Traitement ----
+											
+											if ((i==ligne_academie + 3) && (ligne_academie >0)){
+												String corps = header.getCorps(ligne);
+												//System.out.println("Corps ." + corps + ".");
+											}												
+											
+											if ((i==ligne_academie + 4) && (ligne_academie >0)){
+												String date_fichier = header.getDateFichier(ligne);
+												String date_min_periode = header.getDateMinPeriode(ligne);
+												//System.out.println("Date Fichier ." + date_fichier + ".  //  Date Min Période ." + date_min_periode + ".");
+											}
+											
+											if ((i==ligne_academie + 5) && (ligne_academie >0)){
+												String date_max_periode = header.getDateMaxPeriode(ligne);
+												//System.out.println("Date Max Période ." + date_max_periode + ".");
+											}
+											
+											if ((i==ligne_academie + 6) && (ligne_academie >0)){
+												// ligne non récupérée (Projet)
+											}
+											
+											if ((i==ligne_academie + 7) && (ligne_academie >0)){
+												String echelon = header.getEchelon(ligne);
+												//System.out.println("Echelon ." + echelon + ".");
+											}
+											
+											
+											// --- Ligne #1 ---
+											if ((i==ligne_academie + ponderation_position + 13) && (ligne_academie >0)){
+												String nom = body.getNom(ligne);
+												String rne = body.getRne(ligne);
+												String type_etablissement = body.getTypeEtablissement(ligne);
+												String ags = body.getAgs(ligne);
+												String date_acces_ech = body.getDateAccesEch(ligne);
+												String pro_gc = body.getProGc(ligne);
+												String date_gc = body.getDateGc(ligne);
+												String asa_gc = body.getAsaGc(ligne);
 												
-												if ((i==ligne_academie + 3) && (ligne_academie >0)){
-													String corps = header.getCorps(ligne);
-													//System.out.println("Corps ." + corps + ".");
-												}												
-												
-												if ((i==ligne_academie + 4) && (ligne_academie >0)){
-													String date_fichier = header.getDateFichier(ligne);
-													String date_min_periode = header.getDateMinPeriode(ligne);
-													//System.out.println("Date Fichier ." + date_fichier + ".  //  Date Min Période ." + date_min_periode + ".");
-												}
-												
-												if ((i==ligne_academie + 5) && (ligne_academie >0)){
-													String date_max_periode = header.getDateMaxPeriode(ligne);
-													//System.out.println("Date Max Période ." + date_max_periode + ".");
-												}
-												
-												if ((i==ligne_academie + 6) && (ligne_academie >0)){
-													// ligne non récupérée (Projet)
-												}
-												
-												if ((i==ligne_academie + 7) && (ligne_academie >0)){
-													String echelon = header.getEchelon(ligne);
-													//System.out.println("Echelon ." + echelon + ".");
-												}
-												
-												
-												// --- Ligne #1 ---
-												if ((i==ligne_academie + 13) && (ligne_academie >0)){
-													String nom = body.getNom(ligne);
-													String rne = body.getRne(ligne);
-													String type_etablissement = body.getTypeEtablissement(ligne);
-													String ags = body.getAgs(ligne);
-													String date_acces_ech = body.getDateAccesEch(ligne);
-													String pro_gc = body.getProGc(ligne);
-													String date_gc = body.getDateGc(ligne);
-													String asa_gc = body.getAsaGc(ligne);
-													
-//													System.out.println("Nom ." + nom + ".  /  Rne ." + rne + ".");
+													System.out.println("Nom ." + nom + ".  /  Rne ." + rne + ".");
 //													System.out.println("TypeEtablissement ." + type_etablissement + ".  /  Ags ." + ags + ".");
 //													System.out.println("DateAccesEch ." + date_acces_ech + ".  /  ProGc ." + pro_gc + ".");
 //													System.out.println("DateGc ." + date_gc + ".  /  AsaGc ." + asa_gc + ".");
-												}
+											}
+											
+											// --- Ligne #2 ---
+											if ((i==ligne_academie + ponderation_position + 14) && (ligne_academie >0)){
+												String prenom = body.getPrenom(ligne);
+												String date_naissance = body.getDateNaissance(ligne);
+												String note_inspection = body.getNoteInspection(ligne);
+												String date_inspection = body.getDateInspection(ligne);
+												String mode_acces_ech = body.getModeAccesEch(ligne);
+												String report_anciennete = body.getReportAnciennete(ligne);
+												String pro_ch = body.getProCh(ligne);
+												String date_ch = body.getDateCh(ligne);
+												String asa_ch = body.getAsaCh(ligne);
 												
-												// --- Ligne #2 ---
-												if ((i==ligne_academie + 14) && (ligne_academie >0)){
-													String prenom = body.getPrenom(ligne);
-													String date_naissance = body.getDateNaissance(ligne);
-													String note_inspection = body.getNoteInspection(ligne);
-													String date_inspection = body.getDateInspection(ligne);
-													String mode_acces_ech = body.getModeAccesEch(ligne);
-													String report_anciennete = body.getReportAnciennete(ligne);
-													String pro_ch = body.getProCh(ligne);
-													String date_ch = body.getDateCh(ligne);
-													String asa_ch = body.getAsaCh(ligne);
-													
 //													System.out.println("prenom ." + prenom + ".  /  date_naissance ." + date_naissance + ".");
 //													System.out.println("note_inspection ." + note_inspection + ".  /  date_inspection ." + date_inspection + ".");
 //													System.out.println("mode_acces_ech ." + mode_acces_ech + ".  /  report_anciennete ." + report_anciennete + ".");
 //													System.out.println("pro_ch ." + pro_ch + ".  /  date_ch ." + date_ch + ".  /  asa_ch ." + asa_ch + ".");
-												}
+											}
+											
+											// --- Ligne #3 ---
+											if ((i==ligne_academie + ponderation_position + 15) && (ligne_academie >0)){
+												String code_discipline = body.getCodeDiscipline(ligne);
+												String pro_an = body.getProAn(ligne);
+												String date_an = body.getDateAn(ligne);
+												String asa_an = body.getAsaAn(ligne);
 												
-												// --- Ligne #2 ---
-												if ((i==ligne_academie + 15) && (ligne_academie >0)){
-													String code_discipline = body.getCodeDiscipline(ligne);
-													String pro_an = body.getProAn(ligne);
-													String date_an = body.getDateAn(ligne);
-													String asa_an = body.getAsaAn(ligne);
-													
 //													System.out.println("code_discipline ." + code_discipline + ".  /  pro_an ." + pro_an + ".");
 //													System.out.println("date_an ." + date_an + ".  /  asa_an ." + asa_an + ".");
+											}
+											
+											// --- Ligne #5 ---
+											if ((i==ligne_academie + ponderation_position + 17) && (ligne_academie >0)){
+												
+											}
+											
+											// --- Ligne #6 ---
+											if ((i==ligne_academie + ponderation_position + 18) && (ligne_academie >0)){
+												
+											}
+											
+											// --- Ligne #10 ---
+											if ((i==ligne_academie + ponderation_position + 22) && (ligne_academie >0)){
+												String temoin = body.getTemoin(ligne);
+												
+												if(temoin.compareTo("!")==0){
+													ponderation_position = ponderation_position + 10;
 												}
 											}
 										}

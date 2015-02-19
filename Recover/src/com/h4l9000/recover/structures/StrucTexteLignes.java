@@ -67,6 +67,30 @@ public class StrucTexteLignes {
 	
 	private int asa_an_debut = 0;
 	private int asa_an_fin = 0;
+	
+	// --- Ligne 5 ---
+	private int note_administrative_debut = 0;
+	private int note_administrative_fin = 0;
+	
+	private int note_pedagogique_debut = 0;
+	private int note_pedagogique_fin = 0;
+	
+	private int critere_anciennete_corps_debut = 0;
+	private int critere_anciennete_corps_fin = 0;
+	
+	private int critere_anciennete_ech_debut = 0;
+	private int critere_anciennete_ech_fin = 0;
+	
+	private int critere_mode_acces_ech_debut = 0;
+	private int critere_mode_acces_ech_fin = 0;
+	
+	// --- Ligne 6 ---
+	private int bareme_debut = 0;
+	private int bareme_fin = 0;
+	
+	// --- Ligne 10 ---
+	private int temoin_debut = 0;
+	private int temoin_fin = 0;
 
 	public StrucTexteLignes(String strModeAffectationValeurs){
 		
@@ -145,6 +169,30 @@ public class StrucTexteLignes {
 		
 		asa_an_debut = 127;
 		asa_an_fin = 131;
+		
+		// --- Ligne 5 ---
+		note_administrative_debut = 39;
+		note_administrative_fin = 49;
+		
+		note_pedagogique_debut = 60;
+		note_pedagogique_fin = 70;
+		
+		critere_anciennete_corps_debut = 80;
+		critere_anciennete_corps_fin = 90;
+		
+		critere_anciennete_ech_debut = 100;
+		critere_anciennete_ech_fin = 110;
+		
+		critere_mode_acces_ech_debut = 120;
+		critere_mode_acces_ech_fin = 130;
+		
+		// --- Ligne 6 ---
+		bareme_debut = 1;
+		bareme_fin = 10;
+		
+		// --- Ligne 10 ---
+		temoin_debut = 0;
+		temoin_fin = 1;
 	}
 	
 	private String loadValue(String strFichier){
@@ -325,5 +373,64 @@ public class StrucTexteLignes {
 	
 	public int getAsaAnFin(){
 		return asa_an_fin;
+	}
+	
+	// --- Ligne 5 ---
+	public int getNoteAdministrativeDebut(){
+		return note_administrative_debut;
+	}
+	
+	public int getNoteAdministrativeFin(){
+		return note_administrative_fin;
+	}
+	
+	public int getNotePedagogiqueDebut(){
+		return note_pedagogique_debut;
+	}
+	
+	public int getNotePedagogiqueFin(){
+		return note_pedagogique_fin;
+	}
+	
+	public int getCritereAncienneteCorpsDebut(){
+		return critere_anciennete_corps_debut;
+	}
+	
+	public int getCritereAncienneteCorpsFin(){
+		return critere_anciennete_corps_fin;
+	}
+	
+	public int getCritereAncienneteEchDebut(){
+		return critere_anciennete_ech_debut;
+	}
+	
+	public int getCritereAncienneteEchFin(){
+		return critere_anciennete_ech_fin;
+	}
+	
+	public int getCritereModeAccesEchDebut(){
+		return critere_mode_acces_ech_debut;
+	}
+	
+	public int getCritereModeAccesEchFin(){
+		return critere_mode_acces_ech_fin;
+	}
+	
+	// --- Ligne 6 ---
+	public int getBaremeDebut(){
+		return bareme_debut;
+	}
+	
+	public int getBaremeFin(){
+		return bareme_fin;
+	}
+	
+	// --- Ligne 10 ---
+	public int getTemoinDebut(){
+		return temoin_debut;
+	}
+	
+	public int getTemoinFin(){
+		return temoin_fin;
 	}
 }

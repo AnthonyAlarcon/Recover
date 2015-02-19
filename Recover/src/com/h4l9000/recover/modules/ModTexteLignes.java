@@ -108,6 +108,11 @@ public class ModTexteLignes {
 		resultat = strLigne2.substring(lignes.getNoteInspectionDebut(), lignes.getNoteInspectionFin());
 		resultat = resultat.trim();
 		
+		// Cas où la note d'inspection n'existe pas
+		if(resultat.compareTo("")==0){
+			resultat = "-1";
+		}
+		
 		return resultat;
 	}
 	
@@ -166,38 +171,116 @@ public class ModTexteLignes {
 	}
 	
 	// --- Ligne 3 ---
-	public String getCodeDiscipline(String strLigne2){
+	public String getCodeDiscipline(String strLigne3){
 		String resultat = "";
 		
-		resultat = strLigne2.substring(lignes.getCodeDisciplineDebut(), lignes.getCodeDisciplineFin());
+		resultat = strLigne3.substring(lignes.getCodeDisciplineDebut(), lignes.getCodeDisciplineFin());
 		resultat = resultat.trim();
 		
 		return resultat;
 	}
 	
-	public String getProAn(String strLigne2){
+	public String getProAn(String strLigne3){
 		String resultat = "";
 		
-		resultat = strLigne2.substring(lignes.getProAnDebut(), lignes.getProAnFin());
+		resultat = strLigne3.substring(lignes.getProAnDebut(), lignes.getProAnFin());
 		resultat = resultat.trim();
 		
 		return resultat;
 	}
 	
-	public String getDateAn(String strLigne2){
+	public String getDateAn(String strLigne3){
 		String resultat = "";
 		
-		resultat = strLigne2.substring(lignes.getDateAnDebut(), lignes.getDateAnFin());
+		resultat = strLigne3.substring(lignes.getDateAnDebut(), lignes.getDateAnFin());
 		resultat = resultat.trim();
 		
 		return resultat;
 	}
 	
-	public String getAsaAn(String strLigne2){
+	public String getAsaAn(String strLigne3){
 		String resultat = "";
 		
-		resultat = strLigne2.substring(lignes.getAsaAnDebut(), lignes.getAsaAnFin());
+		resultat = strLigne3.substring(lignes.getAsaAnDebut(), lignes.getAsaAnFin());
 		resultat = resultat.trim();
+		
+		return resultat;
+	}
+	
+	// --- Ligne 5 ---
+	public String getNoteAdministrative(String strLigne5){
+		String resultat = "";
+		
+		resultat = strLigne5.substring(lignes.getNoteAdministrativeDebut(), lignes.getNoteAdministrativeFin());
+		resultat = resultat.trim();
+		
+		return resultat;
+	}
+	
+	public String getNotePedagogique(String strLigne5){
+		String resultat = "";
+		
+		resultat = strLigne5.substring(lignes.getNotePedagogiqueDebut(), lignes.getNotePedagogiqueFin());
+		resultat = resultat.trim();
+		
+		// Cas où la note pédagogique n'existe pas
+		if(resultat.compareTo("")==0){
+			resultat = "-1";
+		}
+		
+		return resultat;
+	}
+	
+	public String getCritereAncienneteCorps(String strLigne5){
+		String resultat = "";
+		
+		resultat = strLigne5.substring(lignes.getCritereAncienneteCorpsDebut(), lignes.getCritereAncienneteCorpsFin());
+		resultat = resultat.trim();
+		
+		return resultat;
+	}
+	
+	public String getCritereAncienneteEch(String strLigne5){
+		String resultat = "";
+		
+		resultat = strLigne5.substring(lignes.getCritereAncienneteEchDebut(), lignes.getCritereAncienneteEchFin());
+		resultat = resultat.trim();
+		
+		return resultat;
+	}
+	
+	public String getCritereModeAccesEch(String strLigne5){
+		String resultat = "";
+		
+		resultat = strLigne5.substring(lignes.getCritereModeAccesEchDebut(), lignes.getCritereModeAccesEchFin());
+		resultat = resultat.trim();
+		
+		return resultat;
+	}
+	
+	// --- Ligne 6 ---
+	public String getBareme(String strLigne6){
+		String resultat = "";
+		
+		resultat = strLigne6.substring(lignes.getBaremeDebut(), lignes.getBaremeFin());
+		resultat = resultat.trim();
+		
+		return resultat;
+	}
+	
+	// --- Ligne 10 ---
+	public String getTemoin(String strLigne10){
+		String resultat = "";
+		
+		// On teste si le tableau se poursuit au delà de l'agent en cours de traitement
+		
+		try{
+			resultat = strLigne10.substring(lignes.getTemoinDebut(), lignes.getTemoinFin());
+			resultat = resultat.trim();
+		} catch (Exception ex){
+			resultat = "";
+		}
+		
 		
 		return resultat;
 	}
