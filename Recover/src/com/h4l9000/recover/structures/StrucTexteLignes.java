@@ -141,7 +141,7 @@ public class StrucTexteLignes {
 		pro_an_fin = 113;
 		
 		date_an_debut = 117;
-		date_an_fin = 1127;
+		date_an_fin = 127;
 		
 		asa_an_debut = 127;
 		asa_an_fin = 131;
@@ -156,6 +156,7 @@ public class StrucTexteLignes {
 		return resultat;
 	}
 	
+	// --- Ligne 1 ---
 	public int getNomDebut(){
 		return nom_debut;
 	}
@@ -218,5 +219,111 @@ public class StrucTexteLignes {
 	
 	public int getAsaGcFin(){
 		return asa_gc_fin;
+	}
+	
+	// --- Ligne 2 ---
+	public int getPrenomDebut(){
+		return prenom_debut;
+	}
+	
+	public int getPrenomFin(){
+		return prenom_fin;
+	}
+	
+	public int getDateNaissanceDebut(){
+		return date_naissance_debut;
+	}
+	
+	public int getDateNaissanceFin(){
+		return date_naissance_fin;
+	}
+	
+	public int getNoteInspectionDebut(){
+		return note_inspection_debut;
+	}
+	
+	public int getNoteInspectionFin(){
+		return note_inspection_fin;
+	}
+	
+	public int getDateInspectionDebut(){
+		return date_inspection_debut;
+	}
+	
+	public int getDateInspectionFin(){
+		return date_inspection_fin;
+	}
+	
+	public int getModeAccesEchDebut(){
+		return mode_acces_ech_debut;
+	}
+	
+	public int getModeAccesEchFin(){
+		return mode_acces_ech_fin;
+	}
+	
+	public int getReportAncienneteDebut(){
+		return report_anciennete_debut;
+	}
+	
+	public int getReportAncienneteFin(){
+		return report_anciennete_fin;
+	}
+	
+	public int getProChDebut(){
+		return pro_ch_debut;
+	}
+	
+	public int getProChFin(){
+		return pro_ch_fin;
+	}
+	
+	public int getDateChDebut(){
+		return date_ch_debut;
+	}
+	
+	public int getDateChFin(){
+		return date_ch_fin;
+	}
+	
+	public int getAsaChDebut(){
+		return asa_ch_debut;
+	}
+	
+	public int getAsaChFin(){
+		return asa_ch_fin;
+	}
+	
+	// --- Ligne 3 ---
+	public int getCodeDisciplineDebut(){
+		return code_discipline_debut;
+	}
+	
+	public int getCodeDisciplineFin(){
+		return code_discipline_fin;
+	}
+	
+	public int getProAnDebut(){
+		return pro_an_debut;
+	}
+	
+	public int getProAnFin(){
+		return pro_an_fin;
+	}
+	
+	public int getDateAnDebut(){
+		return date_an_debut;
+	}
+	
+	public int getDateAnFin(){
+		return date_an_fin;
+	}
+	
+	public int getAsaAnDebut(){
+		return asa_an_debut;
+	}
+	
+	public int getAsaAnFin(){
+		return asa_an_fin;
 	}
 }

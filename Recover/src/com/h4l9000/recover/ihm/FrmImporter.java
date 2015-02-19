@@ -209,15 +209,39 @@ public class FrmImporter extends JFrame {
 													String date_gc = body.getDateGc(ligne);
 													String asa_gc = body.getAsaGc(ligne);
 													
-													System.out.println("Nom ." + nom + ".  /  Rne ." + rne + ".");
-													System.out.println("TypeEtablissement ." + type_etablissement + ".  /  Ags ." + ags + ".");
-													System.out.println("DateAccesEch ." + date_acces_ech + ".  /  ProGc ." + pro_gc + ".");
-													System.out.println("DateGc ." + date_gc + ".  /  AsaGc ." + asa_gc + ".");
+//													System.out.println("Nom ." + nom + ".  /  Rne ." + rne + ".");
+//													System.out.println("TypeEtablissement ." + type_etablissement + ".  /  Ags ." + ags + ".");
+//													System.out.println("DateAccesEch ." + date_acces_ech + ".  /  ProGc ." + pro_gc + ".");
+//													System.out.println("DateGc ." + date_gc + ".  /  AsaGc ." + asa_gc + ".");
 												}
 												
 												// --- Ligne #2 ---
 												if ((i==ligne_academie + 14) && (ligne_academie >0)){
+													String prenom = body.getPrenom(ligne);
+													String date_naissance = body.getDateNaissance(ligne);
+													String note_inspection = body.getNoteInspection(ligne);
+													String date_inspection = body.getDateInspection(ligne);
+													String mode_acces_ech = body.getModeAccesEch(ligne);
+													String report_anciennete = body.getReportAnciennete(ligne);
+													String pro_ch = body.getProCh(ligne);
+													String date_ch = body.getDateCh(ligne);
+													String asa_ch = body.getAsaCh(ligne);
 													
+//													System.out.println("prenom ." + prenom + ".  /  date_naissance ." + date_naissance + ".");
+//													System.out.println("note_inspection ." + note_inspection + ".  /  date_inspection ." + date_inspection + ".");
+//													System.out.println("mode_acces_ech ." + mode_acces_ech + ".  /  report_anciennete ." + report_anciennete + ".");
+//													System.out.println("pro_ch ." + pro_ch + ".  /  date_ch ." + date_ch + ".  /  asa_ch ." + asa_ch + ".");
+												}
+												
+												// --- Ligne #2 ---
+												if ((i==ligne_academie + 15) && (ligne_academie >0)){
+													String code_discipline = body.getCodeDiscipline(ligne);
+													String pro_an = body.getProAn(ligne);
+													String date_an = body.getDateAn(ligne);
+													String asa_an = body.getAsaAn(ligne);
+													
+//													System.out.println("code_discipline ." + code_discipline + ".  /  pro_an ." + pro_an + ".");
+//													System.out.println("date_an ." + date_an + ".  /  asa_an ." + asa_an + ".");
 												}
 											}
 										}
