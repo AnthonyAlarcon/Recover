@@ -111,8 +111,13 @@ public class FrmImporter extends JFrame {
 							
 							int returnVal = fc.showOpenDialog(FrmImporter.this);
 							
-							int ligne_academie = 0;
+							// 
+							int ligne_academie = -1;
+							
+							int position = 0;
 							int ponderation_position = 0;
+							
+							int nb_agents = 0;
 														
 							// --- L'utilisateur valide son choix ---
 							if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -141,6 +146,10 @@ public class FrmImporter extends JFrame {
 										
 										setNewMessage("Traitement des données...");
 										
+										
+										String echelon = "";
+										String numero_page = "";
+										
 										// --- Balayge des données du vecteur vecLignes ---
 										for (int i=0; i < vecLignes.size(); i++){
 											ligne = vecLignes.get(i).toString();
@@ -151,48 +160,52 @@ public class FrmImporter extends JFrame {
 												if (ligne.substring(0, 10).compareTo(" ACADEMIE ")==0){
 													
 													String academie = header.getAcademie(ligne);
-													String numero_page = header.getPage(ligne);
+													numero_page = header.getPage(ligne);
 													
-													System.out.println(academie + " / " + numero_page);
+													//System.out.println(academie + " / " + numero_page);
 													
 													// --- Affectation de l'indice I associé à la ligne académie ---
 													ligne_academie = i;
 													
 													// --- reset de la pondération ---
+													position = 1;
 													ponderation_position = 0;
 												}
 											}
 											
 											// --- Traitement ----
 											
-											if ((i==ligne_academie + 3) && (ligne_academie >0)){
+											if ((i==ligne_academie + 3) && (ligne_academie > -1)){
 												String corps = header.getCorps(ligne);
 												//System.out.println("Corps ." + corps + ".");
 											}												
 											
-											if ((i==ligne_academie + 4) && (ligne_academie >0)){
+											if ((i==ligne_academie + 4) && (ligne_academie > -1)){
 												String date_fichier = header.getDateFichier(ligne);
 												String date_min_periode = header.getDateMinPeriode(ligne);
 												//System.out.println("Date Fichier ." + date_fichier + ".  //  Date Min Période ." + date_min_periode + ".");
 											}
 											
-											if ((i==ligne_academie + 5) && (ligne_academie >0)){
+											if ((i==ligne_academie + 5) && (ligne_academie > -1)){
 												String date_max_periode = header.getDateMaxPeriode(ligne);
 												//System.out.println("Date Max Période ." + date_max_periode + ".");
 											}
 											
-											if ((i==ligne_academie + 6) && (ligne_academie >0)){
+											if ((i==ligne_academie + 6) && (ligne_academie > -1)){
 												// ligne non récupérée (Projet)
 											}
 											
-											if ((i==ligne_academie + 7) && (ligne_academie >0)){
-												String echelon = header.getEchelon(ligne);
+											if ((i==ligne_academie + 7) && (ligne_academie > -1)){
+												echelon = header.getEchelon(ligne);
 												//System.out.println("Echelon ." + echelon + ".");
 											}
 											
 											
 											// --- Ligne #1 ---
-											if ((i==ligne_academie + ponderation_position + 13) && (ligne_academie >0)){
+											if ((i==ligne_academie + ponderation_position + 13) && (ligne_academie > -1)){
+												
+												nb_agents = nb_agents + 1;
+												
 												String nom = body.getNom(ligne);
 												String rne = body.getRne(ligne);
 												String type_etablissement = body.getTypeEtablissement(ligne);
@@ -202,14 +215,14 @@ public class FrmImporter extends JFrame {
 												String date_gc = body.getDateGc(ligne);
 												String asa_gc = body.getAsaGc(ligne);
 												
-													System.out.println("Nom ." + nom + ".  /  Rne ." + rne + ".");
+													System.out.println(echelon + ";" + numero_page + ";" + position + ";" + nom + ";" + rne + ";");
 //													System.out.println("TypeEtablissement ." + type_etablissement + ".  /  Ags ." + ags + ".");
 //													System.out.println("DateAccesEch ." + date_acces_ech + ".  /  ProGc ." + pro_gc + ".");
 //													System.out.println("DateGc ." + date_gc + ".  /  AsaGc ." + asa_gc + ".");
 											}
 											
 											// --- Ligne #2 ---
-											if ((i==ligne_academie + ponderation_position + 14) && (ligne_academie >0)){
+											if ((i==ligne_academie + ponderation_position + 14) && (ligne_academie > -1)){
 												String prenom = body.getPrenom(ligne);
 												String date_naissance = body.getDateNaissance(ligne);
 												String note_inspection = body.getNoteInspection(ligne);
@@ -227,7 +240,7 @@ public class FrmImporter extends JFrame {
 											}
 											
 											// --- Ligne #3 ---
-											if ((i==ligne_academie + ponderation_position + 15) && (ligne_academie >0)){
+											if ((i==ligne_academie + ponderation_position + 15) && (ligne_academie > -1)){
 												String code_discipline = body.getCodeDiscipline(ligne);
 												String pro_an = body.getProAn(ligne);
 												String date_an = body.getDateAn(ligne);
@@ -238,20 +251,21 @@ public class FrmImporter extends JFrame {
 											}
 											
 											// --- Ligne #5 ---
-											if ((i==ligne_academie + ponderation_position + 17) && (ligne_academie >0)){
+											if ((i==ligne_academie + ponderation_position + 17) && (ligne_academie > -11)){
 												
 											}
 											
 											// --- Ligne #6 ---
-											if ((i==ligne_academie + ponderation_position + 18) && (ligne_academie >0)){
+											if ((i==ligne_academie + ponderation_position + 18) && (ligne_academie > -1)){
 												
 											}
 											
 											// --- Ligne #10 ---
-											if ((i==ligne_academie + ponderation_position + 22) && (ligne_academie >0)){
+											if ((i==ligne_academie + ponderation_position + 22) && (ligne_academie > -1)){
 												String temoin = body.getTemoin(ligne);
 												
 												if(temoin.compareTo("!")==0){
+													position = position + 1;
 													ponderation_position = ponderation_position + 10;
 												}
 											}
@@ -265,6 +279,8 @@ public class FrmImporter extends JFrame {
 									System.out.println("[FrmImporter] Erreur : " + ex.toString());
 								}
 							}
+							
+							System.out.println("COUNT = " + nb_agents);
 							
 							deverrouiller();
 							
