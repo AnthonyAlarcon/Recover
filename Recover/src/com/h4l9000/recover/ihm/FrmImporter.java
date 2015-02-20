@@ -15,6 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
@@ -25,6 +26,7 @@ import com.h4l9000.recover.modules.ModTexteLignes;
 import com.h4l9000.recover.ws.MyWsAjoutAgent;
 import com.h4l9000.recover.ws.MyWsAjoutEchelon;
 import com.h4l9000.recover.ws.MyWsAjoutInspection;
+import com.h4l9000.recover.ws.MyWsAjoutRattachement;
 
 import javax.swing.JScrollPane;
 import javax.swing.JList;
@@ -35,6 +37,7 @@ public class FrmImporter extends JFrame {
 	private JPanel jContentPane = null;
 	private JButton btnFermer = null;
 	private JButton btnDemarrer = null;
+	private JProgressBar progressImport = null;
 	private JScrollPane scrollMessages = null;
 	private JList<String> listMessages = null;
 	private DefaultListModel<String> modele_messages = null;
@@ -63,6 +66,7 @@ public class FrmImporter extends JFrame {
 			jContentPane.add(getBtnDemarrer());
 			jContentPane.add(getBtnFermer());
 			jContentPane.add(getScrollMessages());
+			jContentPane.add(getProgressImport());
 		}
 		return jContentPane;
 	}
@@ -120,6 +124,8 @@ public class FrmImporter extends JFrame {
 							String note_inspection = "";
 							String date_inspection = "";
 							
+							String rne = "";
+							
 							ModFiltre filtreTXT = new ModFiltre(new String[]{"txt","TXT"}, "Fichier texte (*.txt | *.TXT)");
 							
 							// --- Strucure du fichier texte ---
@@ -148,6 +154,7 @@ public class FrmImporter extends JFrame {
 								
 								try {
 									setNewMessage("Ouverture du fichier");
+									progressImport.setIndeterminate(false);
 									
 									File file = new File(fc.getSelectedFile().getPath());
 									
@@ -231,7 +238,7 @@ public class FrmImporter extends JFrame {
 												nb_agents = nb_agents + 1;
 												
 												nom = body.getNom(ligne);
-												String rne = body.getRne(ligne);
+												rne = body.getRne(ligne);
 												String type_etablissement = body.getTypeEtablissement(ligne);
 												String ags = body.getAgs(ligne);
 												date_acces_ech = body.getDateAccesEch(ligne);
@@ -292,31 +299,41 @@ public class FrmImporter extends JFrame {
 											if ((i==ligne_academie + ponderation_position + 22) && (ligne_academie > -1)){
 												
 												// --- Fin de traitement d'une position---								
-												MyWsAjoutAgent agent = new MyWsAjoutAgent("http://www.h4l9000.com/WsDataImport.asmx", "http://www.h4l9000.com/", "AjoutAgent", parent.getToken(), nom, prenom, fd.getFormatDate(date_naissance), sexe);
-												String reponse_ajout_agent = agent.getSingle("AjoutAgentResult");
+//												MyWsAjoutAgent agent = new MyWsAjoutAgent("http://www.h4l9000.com/WsDataImport.asmx", "http://www.h4l9000.com/", "AjoutAgent", parent.getToken(), nom, prenom, fd.getFormatDate(date_naissance), sexe);
+//												String reponse_ajout_agent = agent.getSingle("AjoutAgentResult");
+//												
+//												if (reponse_ajout_agent.compareTo("OK")!=0){
+//													setNewMessage("--> Erreur sur AGENT ." + echelon + ". ." + position + ".");
+//													System.out.println("### AjoutAgent > " + i + "   ." + reponse_ajout_agent + ".");
+//												}
+//												
+//												
+//												MyWsAjoutEchelon ech = new MyWsAjoutEchelon("http://www.h4l9000.com/WsDataImport.asmx", "http://www.h4l9000.com/", "AjoutEchelon", parent.getToken(), date_min_periode + "_" + date_max_periode, academie, corps, nom, prenom, fd.getFormatDate(date_naissance), echelon, fd.getFormatDate(date_acces_ech), mode_acces_ech, numero_page, String.valueOf(position));
+//												String reponse_ajout_ech = ech.getSingle("AjoutEchelonResult");
+//												
+//												if (reponse_ajout_ech.compareTo("OK")!=0){
+//													setNewMessage("--> Erreur sur ECHELON ." + echelon + ". ." + position + ".");
+//													System.out.println("### AjoutEchelon > " + i + "   ." + reponse_ajout_ech + ".");
+//												}
 												
-												if (reponse_ajout_agent.compareTo("OK")!=0){
-													setNewMessage("--> Erreur sur AGENT ." + echelon + ". ." + position + ".");
-													System.out.println("### AjoutAgent > " + i + "   ." + reponse_ajout_agent + ".");
-												}
 												
-												
-												MyWsAjoutEchelon ech = new MyWsAjoutEchelon("http://www.h4l9000.com/WsDataImport.asmx", "http://www.h4l9000.com/", "AjoutEchelon", parent.getToken(), date_min_periode + "_" + date_max_periode, academie, corps, nom, prenom, fd.getFormatDate(date_naissance), echelon, fd.getFormatDate(date_acces_ech), mode_acces_ech, numero_page, String.valueOf(position));
-												String reponse_ajout_ech = ech.getSingle("AjoutEchelonResult");
-												
-												if (reponse_ajout_ech.compareTo("OK")!=0){
-													setNewMessage("--> Erreur sur ECHELON ." + echelon + ". ." + position + ".");
-													System.out.println("### AjoutEchelon > " + i + "   ." + reponse_ajout_ech + ".");
-												}
-												
-												
-//												MyWsAjoutInspection insp = new MyWsAjoutInspection("http://www.h4l9000.com/WsDataImport.asmx", "http://www.h4l9000.com/", "AjoutEchelon", parent.getToken(), date_min_periode + "_" + date_max_periode, academie, corps, nom, prenom, fd.getFormatDate(date_naissance), note_inspection, fd.getFormatDate(date_inspection));
+//												MyWsAjoutInspection insp = new MyWsAjoutInspection("http://www.h4l9000.com/WsDataImport.asmx", "http://www.h4l9000.com/", "AjoutInspection", parent.getToken(), date_min_periode + "_" + date_max_periode, academie, corps, nom, prenom, fd.getFormatDate(date_naissance), note_inspection, fd.getFormatDate(date_inspection));
 //												String reponse_ajout_insp = insp.getSingle("AjoutInspectionResult");
 //												
 //												if (reponse_ajout_insp.compareTo("OK")!=0){
 //													setNewMessage("--> Erreur sur INSPECTION ." + echelon + ". ." + position + ".");
 //													System.out.println("### AjoutInspection > " + i + "   ." + reponse_ajout_insp + ".");
 //												}
+												
+												MyWsAjoutRattachement ratt = new MyWsAjoutRattachement("http://www.h4l9000.com/WsDataImport.asmx", "http://www.h4l9000.com/", "AjoutRattachement", parent.getToken(), date_min_periode + "_" + date_max_periode, academie, corps, nom, prenom, fd.getFormatDate(date_naissance), rne);
+												String reponse_ajout_ratt = ratt.getSingle("AjoutRattachementResult");
+												
+												if (reponse_ajout_ratt.compareTo("OK")!=0){
+													setNewMessage("--> Erreur sur RATTACHEMENT ." + echelon + ". ." + numero_page + ". ." + position + ".");
+													System.out.println("### AjoutRattachement > " + i + "   ." + reponse_ajout_ratt + ".");
+													System.out.println("### AjoutRattachement > " + date_min_periode + "_" + date_max_periode + "/" + academie + "/" + corps + "/" + nom + "/" + prenom + "/" + fd.getFormatDate(date_naissance) + "/" + rne);
+													System.out.println((parent.getToken()));
+												}
 												
 												
 												String temoin = body.getTemoin(ligne);
@@ -333,6 +350,8 @@ public class FrmImporter extends JFrame {
 									} else {
 										setNewMessage("### Erreur ### Le fichier sélectionné ne peux pas être chargé");
 									}
+									
+									progressImport.setIndeterminate(false);
 									
 								} catch (Exception ex){
 									System.out.println("[FrmImporter] Erreur : " + ex.toString());
@@ -366,6 +385,14 @@ public class FrmImporter extends JFrame {
 			});
 		}
 		return btnFermer;
+	}
+	
+	private JProgressBar getProgressImport(){
+		if (progressImport==null){
+			progressImport = new JProgressBar();
+			progressImport.setBounds(new Rectangle(27, 320, 75, 30));
+		}
+		return progressImport;
 	}
 	
 	private void verrouiller(){

@@ -24,7 +24,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
-public class MyWsAjoutInspection {
+public class MyWsAjoutRattachement {
 
 	private SOAPConnectionFactory soapConnectionFactory  = null;
 	private SOAPConnection soapConnection = null;
@@ -43,12 +43,11 @@ public class MyWsAjoutInspection {
     private static String prenom = "";
     private static String date_naissance = "";
     
-    private static String note_inspection = "";
-    private static String date_inspection = "";
+    private static String rne = "";
     
     private Document docReponse = null;
     
-    public MyWsAjoutInspection (String strURL, String strNameSpace, String strMethodeWeb, String strToken, String strIdPeriode, String strAcademie, String strCorps, String strNom, String strPrenom, String strDateNaissance, String strNoteInspection, String strDateInspection){
+    public MyWsAjoutRattachement (String strURL, String strNameSpace, String strMethodeWeb, String strToken, String strIdPeriode, String strAcademie, String strCorps, String strNom, String strPrenom, String strDateNaissance, String strRne){
     	try {
 			// --- Enregistrement des variables ---
 			url = strURL;
@@ -65,15 +64,14 @@ public class MyWsAjoutInspection {
 			prenom = strPrenom;
 			date_naissance = strDateNaissance;
 			
-			note_inspection = strNoteInspection;
-			date_inspection = strDateInspection;
+			rne = strRne;
 						
 			// --- Création de la connexion SOAP ---
 	        soapConnectionFactory = SOAPConnectionFactory.newInstance();
 	        soapConnection = soapConnectionFactory.createConnection();
 
 	        // --- Envoi du message SOAP au serveur ---    
-	        SOAPMessage soapResponse = soapConnection.call(createSOAPRequest(token, id_periode, academie, corps, nom, prenom, date_naissance, note_inspection, date_inspection), url);
+	        SOAPMessage soapResponse = soapConnection.call(createSOAPRequest(token, id_periode, academie, corps, nom, prenom, date_naissance, rne), url);
 	        
 	        // --- On transforme la réponse SOAP en chaine de caractères ---
 	        String reponse_xml = getReponse(soapResponse);
@@ -87,7 +85,7 @@ public class MyWsAjoutInspection {
 		}
     }
     
-    private static SOAPMessage createSOAPRequest(String strAuthenticatedToken, String strIdPeriode, String strAcademie, String strCorps, String strNom, String strPrenom, String strDateNaissance, String strNoteInspection, String strDateInspection) throws Exception {
+    private static SOAPMessage createSOAPRequest(String strAuthenticatedToken, String strIdPeriode, String strAcademie, String strCorps, String strNom, String strPrenom, String strDateNaissance, String strRne) throws Exception {
         MessageFactory messageFactory = MessageFactory.newInstance();
         SOAPMessage soapMessage = messageFactory.createMessage();
         SOAPPart soapPart = soapMessage.getSOAPPart();
@@ -106,7 +104,7 @@ public class MyWsAjoutInspection {
         soapBodyElem1.addTextNode(strAuthenticatedToken);
         
         SOAPBody soapBody = envelope.getBody();
-        SOAPElement soapBodyElem_var = soapBody.addChildElement("AjoutInspection", "example");
+        SOAPElement soapBodyElem_var = soapBody.addChildElement("AjoutRattachement", "example");
         SOAPElement soapBodyElem_var1 = soapBodyElem_var.addChildElement("strIdPeriode", "example");
         soapBodyElem_var1.addTextNode(strIdPeriode);
         SOAPElement soapBodyElem_var2 = soapBodyElem_var.addChildElement("strAcademie", "example");
@@ -120,10 +118,8 @@ public class MyWsAjoutInspection {
         SOAPElement soapBodyElem_var6 = soapBodyElem_var.addChildElement("strDateNaissance", "example");
         soapBodyElem_var6.addTextNode(strDateNaissance);
         
-        SOAPElement soapBodyElem_var7 = soapBodyElem_var.addChildElement("strNoteInspection", "example");
-        soapBodyElem_var7.addTextNode(strNoteInspection);
-        SOAPElement soapBodyElem_var8 = soapBodyElem_var.addChildElement("strDateInspection", "example");
-        soapBodyElem_var8.addTextNode(strDateInspection);
+        SOAPElement soapBodyElem_var7 = soapBodyElem_var.addChildElement("strRne", "example");
+        soapBodyElem_var7.addTextNode(strRne);
         
         /*
         Constructed SOAP Request Message:
@@ -199,5 +195,4 @@ public class MyWsAjoutInspection {
 		
 		return list.item(0).getTextContent().toString();
 	}
-	
 }
