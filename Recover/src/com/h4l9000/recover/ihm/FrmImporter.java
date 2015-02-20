@@ -23,9 +23,11 @@ import com.h4l9000.recover.modules.ModFiltre;
 import com.h4l9000.recover.modules.ModFormatDate;
 import com.h4l9000.recover.modules.ModTexteEntete;
 import com.h4l9000.recover.modules.ModTexteLignes;
+import com.h4l9000.recover.modules.ModUtiliteInspection;
 import com.h4l9000.recover.ws.MyWsAjoutAgent;
 import com.h4l9000.recover.ws.MyWsAjoutEchelon;
 import com.h4l9000.recover.ws.MyWsAjoutInspection;
+import com.h4l9000.recover.ws.MyWsAjoutPromotion;
 import com.h4l9000.recover.ws.MyWsAjoutRattachement;
 
 import javax.swing.JScrollPane;
@@ -123,6 +125,19 @@ public class FrmImporter extends JFrame {
 							
 							String note_inspection = "";
 							String date_inspection = "";
+							String utilite = "";
+							
+							String pro_gc = "";
+							String date_gc = "";
+							
+							String pro_ch = "";
+							String date_ch = "";
+							
+							String pro_an = "";
+							String date_an = "";
+							
+							String syn_mode_pro = "";
+							String syn_date_pro = "";
 							
 							String rne = "";
 							
@@ -242,8 +257,8 @@ public class FrmImporter extends JFrame {
 												String type_etablissement = body.getTypeEtablissement(ligne);
 												String ags = body.getAgs(ligne);
 												date_acces_ech = body.getDateAccesEch(ligne);
-												String pro_gc = body.getProGc(ligne);
-												String date_gc = body.getDateGc(ligne);
+												pro_gc = body.getProGc(ligne);
+												date_gc = body.getDateGc(ligne);
 												String asa_gc = body.getAsaGc(ligne);
 												
 													System.out.println(echelon + ";" + numero_page + ";" + position + ";" + nom + ";" + rne + ";");
@@ -260,8 +275,8 @@ public class FrmImporter extends JFrame {
 												date_inspection = body.getDateInspection(ligne);
 												mode_acces_ech = body.getModeAccesEch(ligne);
 												String report_anciennete = body.getReportAnciennete(ligne);
-												String pro_ch = body.getProCh(ligne);
-												String date_ch = body.getDateCh(ligne);
+												pro_ch = body.getProCh(ligne);
+												date_ch = body.getDateCh(ligne);
 												String asa_ch = body.getAsaCh(ligne);
 												
 //													System.out.println("prenom ." + prenom + ".  /  date_naissance ." + date_naissance + ".");
@@ -273,8 +288,8 @@ public class FrmImporter extends JFrame {
 											// --- Ligne #3 ---
 											if ((i==ligne_academie + ponderation_position + 15) && (ligne_academie > -1)){
 												String code_discipline = body.getCodeDiscipline(ligne);
-												String pro_an = body.getProAn(ligne);
-												String date_an = body.getDateAn(ligne);
+												pro_an = body.getProAn(ligne);
+												date_an = body.getDateAn(ligne);
 												String asa_an = body.getAsaAn(ligne);
 												
 //													System.out.println("code_discipline ." + code_discipline + ".  /  pro_an ." + pro_an + ".");
@@ -316,24 +331,51 @@ public class FrmImporter extends JFrame {
 //													System.out.println("### AjoutEchelon > " + i + "   ." + reponse_ajout_ech + ".");
 //												}
 												
+												// -- Synthèse PRO ---
+												if (pro_gc.compareTo("")!=0){
+													syn_date_pro = date_gc;
+													syn_mode_pro = pro_gc;
+												} else {
+													if (pro_ch.compareTo("")!=0){
+														syn_date_pro = date_ch;
+														syn_mode_pro = pro_ch;
+													} else {
+														if (pro_an.compareTo("")!=0){
+															syn_date_pro = date_an;
+															syn_mode_pro = pro_an;
+														}
+													}
+												}
 												
-//												MyWsAjoutInspection insp = new MyWsAjoutInspection("http://www.h4l9000.com/WsDataImport.asmx", "http://www.h4l9000.com/", "AjoutInspection", parent.getToken(), date_min_periode + "_" + date_max_periode, academie, corps, nom, prenom, fd.getFormatDate(date_naissance), note_inspection, fd.getFormatDate(date_inspection));
+												MyWsAjoutPromotion promo = new MyWsAjoutPromotion("http://www.h4l9000.com/WsDataImport.asmx", "http://www.h4l9000.com/", "AjoutPromotion", parent.getToken(), date_min_periode + "_" + date_max_periode, academie, corps, nom, prenom, fd.getFormatDate(date_naissance), fd.getFormatDate(syn_date_pro), syn_mode_pro);
+												String reponse_ajout_promo = promo.getSingle("AjoutPromotionResult");
+																								
+												if (reponse_ajout_promo.compareTo("OK")!=0){
+													setNewMessage("--> Erreur sur PROMOTION ." + echelon + ". ." + position + ".");
+													System.out.println("### AjoutPromotion > " + i + "   ." + reponse_ajout_promo + ".");
+												}
+												
+//												ModUtiliteInspection util = new ModUtiliteInspection(date_inspection, date_acces_ech, syn_date_pro);
+//												utilite = util.getUtilite();
+//																								
+//												MyWsAjoutInspection insp = new MyWsAjoutInspection("http://www.h4l9000.com/WsDataImport.asmx", "http://www.h4l9000.com/", "AjoutInspection", parent.getToken(), date_min_periode + "_" + date_max_periode, academie, corps, nom, prenom, fd.getFormatDate(date_naissance), note_inspection, fd.getFormatDate(date_inspection), utilite);
 //												String reponse_ajout_insp = insp.getSingle("AjoutInspectionResult");
-//												
+//																								
 //												if (reponse_ajout_insp.compareTo("OK")!=0){
 //													setNewMessage("--> Erreur sur INSPECTION ." + echelon + ". ." + position + ".");
 //													System.out.println("### AjoutInspection > " + i + "   ." + reponse_ajout_insp + ".");
 //												}
+																							
 												
-												MyWsAjoutRattachement ratt = new MyWsAjoutRattachement("http://www.h4l9000.com/WsDataImport.asmx", "http://www.h4l9000.com/", "AjoutRattachement", parent.getToken(), date_min_periode + "_" + date_max_periode, academie, corps, nom, prenom, fd.getFormatDate(date_naissance), rne);
-												String reponse_ajout_ratt = ratt.getSingle("AjoutRattachementResult");
-												
-												if (reponse_ajout_ratt.compareTo("OK")!=0){
-													setNewMessage("--> Erreur sur RATTACHEMENT ." + echelon + ". ." + numero_page + ". ." + position + ".");
-													System.out.println("### AjoutRattachement > " + i + "   ." + reponse_ajout_ratt + ".");
-													System.out.println("### AjoutRattachement > " + date_min_periode + "_" + date_max_periode + "/" + academie + "/" + corps + "/" + nom + "/" + prenom + "/" + fd.getFormatDate(date_naissance) + "/" + rne);
-													System.out.println((parent.getToken()));
-												}
+//												MyWsAjoutRattachement ratt = new MyWsAjoutRattachement("http://www.h4l9000.com/WsDataImport.asmx", "http://www.h4l9000.com/", "AjoutRattachement", parent.getToken(), date_min_periode + "_" + date_max_periode, academie, corps, nom, prenom, fd.getFormatDate(date_naissance), rne);
+//												String reponse_ajout_ratt = ratt.getSingle("AjoutRattachementResult");
+//												
+//												if (reponse_ajout_ratt.compareTo("OK")!=0){
+//													setNewMessage("--> Erreur sur RATTACHEMENT ." + echelon + ". ." + numero_page + ". ." + position + ".");
+//													System.out.println("### AjoutRattachement > " + i + "   ." + reponse_ajout_ratt + ".");
+//													System.out.println("### AjoutRattachement > " + date_min_periode + "_" + date_max_periode + "/" + academie + "/" + corps + "/" + nom + "/" + prenom + "/" + fd.getFormatDate(date_naissance) + "/" + rne);
+//													System.out.println((parent.getToken()));
+//												}
 												
 												
 												String temoin = body.getTemoin(ligne);

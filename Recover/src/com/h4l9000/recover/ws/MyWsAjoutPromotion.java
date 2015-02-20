@@ -24,7 +24,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
-public class MyWsAjoutInspection {
+public class MyWsAjoutPromotion {
 
 	private SOAPConnectionFactory soapConnectionFactory  = null;
 	private SOAPConnection soapConnection = null;
@@ -43,13 +43,12 @@ public class MyWsAjoutInspection {
     private static String prenom = "";
     private static String date_naissance = "";
     
-    private static String note_inspection = "";
-    private static String date_inspection = "";
-    private static String utilite = "";
+    private static String syn_date_pro = "";
+    private static String syn_mode_pro = "";
     
     private Document docReponse = null;
     
-    public MyWsAjoutInspection (String strURL, String strNameSpace, String strMethodeWeb, String strToken, String strIdPeriode, String strAcademie, String strCorps, String strNom, String strPrenom, String strDateNaissance, String strNoteInspection, String strDateInspection, String strUtilite){
+    public MyWsAjoutPromotion (String strURL, String strNameSpace, String strMethodeWeb, String strToken, String strIdPeriode, String strAcademie, String strCorps, String strNom, String strPrenom, String strDateNaissance, String strSynDatePro, String strSynModePro){
     	try {
 			// --- Enregistrement des variables ---
 			url = strURL;
@@ -66,16 +65,15 @@ public class MyWsAjoutInspection {
 			prenom = strPrenom;
 			date_naissance = strDateNaissance;
 			
-			note_inspection = strNoteInspection;
-			date_inspection = strDateInspection;
-			utilite = strUtilite;
+			syn_date_pro = strSynDatePro;
+			syn_mode_pro = strSynModePro;
 						
 			// --- Création de la connexion SOAP ---
 	        soapConnectionFactory = SOAPConnectionFactory.newInstance();
 	        soapConnection = soapConnectionFactory.createConnection();
 
 	        // --- Envoi du message SOAP au serveur ---    
-	        SOAPMessage soapResponse = soapConnection.call(createSOAPRequest(token, id_periode, academie, corps, nom, prenom, date_naissance, note_inspection, date_inspection, utilite), url);
+	        SOAPMessage soapResponse = soapConnection.call(createSOAPRequest(token, id_periode, academie, corps, nom, prenom, date_naissance, syn_date_pro, syn_mode_pro), url);
 	        
 	        // --- On transforme la réponse SOAP en chaine de caractères ---
 	        String reponse_xml = getReponse(soapResponse);
@@ -89,7 +87,7 @@ public class MyWsAjoutInspection {
 		}
     }
     
-    private static SOAPMessage createSOAPRequest(String strAuthenticatedToken, String strIdPeriode, String strAcademie, String strCorps, String strNom, String strPrenom, String strDateNaissance, String strNoteInspection, String strDateInspection, String strUtilite) throws Exception {
+    private static SOAPMessage createSOAPRequest(String strAuthenticatedToken, String strIdPeriode, String strAcademie, String strCorps, String strNom, String strPrenom, String strDateNaissance, String strSynDatePro, String strSynModePro) throws Exception {
         MessageFactory messageFactory = MessageFactory.newInstance();
         SOAPMessage soapMessage = messageFactory.createMessage();
         SOAPPart soapPart = soapMessage.getSOAPPart();
@@ -108,7 +106,7 @@ public class MyWsAjoutInspection {
         soapBodyElem1.addTextNode(strAuthenticatedToken);
         
         SOAPBody soapBody = envelope.getBody();
-        SOAPElement soapBodyElem_var = soapBody.addChildElement("AjoutInspection", "example");
+        SOAPElement soapBodyElem_var = soapBody.addChildElement("AjoutPromotion", "example");
         SOAPElement soapBodyElem_var1 = soapBodyElem_var.addChildElement("strIdPeriode", "example");
         soapBodyElem_var1.addTextNode(strIdPeriode);
         SOAPElement soapBodyElem_var2 = soapBodyElem_var.addChildElement("strAcademie", "example");
@@ -122,12 +120,10 @@ public class MyWsAjoutInspection {
         SOAPElement soapBodyElem_var6 = soapBodyElem_var.addChildElement("strDateNaissance", "example");
         soapBodyElem_var6.addTextNode(strDateNaissance);
         
-        SOAPElement soapBodyElem_var7 = soapBodyElem_var.addChildElement("strNoteInspection", "example");
-        soapBodyElem_var7.addTextNode(strNoteInspection);
-        SOAPElement soapBodyElem_var8 = soapBodyElem_var.addChildElement("strDateInspection", "example");
-        soapBodyElem_var8.addTextNode(strDateInspection);
-        SOAPElement soapBodyElem_var9 = soapBodyElem_var.addChildElement("strUtilite", "example");
-        soapBodyElem_var9.addTextNode(strUtilite);
+        SOAPElement soapBodyElem_var7 = soapBodyElem_var.addChildElement("strSynDatePro", "example");
+        soapBodyElem_var7.addTextNode(strSynDatePro);
+        SOAPElement soapBodyElem_var8 = soapBodyElem_var.addChildElement("strSynModePro", "example");
+        soapBodyElem_var8.addTextNode(strSynModePro);
         
         /*
         Constructed SOAP Request Message:
