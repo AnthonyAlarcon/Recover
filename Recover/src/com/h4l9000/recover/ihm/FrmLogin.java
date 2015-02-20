@@ -286,7 +286,7 @@ public class FrmLogin extends JFrame {
 
         // SOAP Body
         //SOAPBody soapBody = envelope.getBody();
-        //SOAPElement soapBodyElem = soapBody.addChildElement("ListeCycle", "example");
+//        SOAPElement soapBodyElem = soapBody.addChildElement("ListeCycle", "example");
 //        SOAPElement soapBodyElem1 = soapBodyElem.addChildElement("Identifiant", "example");
 //        soapBodyElem1.addTextNode("TENA");
 //        SOAPElement soapBodyElem2 = soapBodyElem.addChildElement("MotDePasse", "example");

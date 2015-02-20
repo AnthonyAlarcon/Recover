@@ -95,6 +95,10 @@ public class FrmMain extends JFrame {
 		return btnImporter;
 	}
 	
+	public String getToken(){
+		return token;
+	}
+	
 	private void ControleMaintenance(){
 		
 		// --- Lancement ---
