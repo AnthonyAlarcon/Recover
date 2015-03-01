@@ -13,14 +13,18 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
+import org.w3c.dom.NodeList;
+
 import com.h4l9000.recover.modules.ModGeneral;
 import com.h4l9000.recover.threads.ThreadMaintenance;
+import com.h4l9000.recover.ws.MyWsDataset;
 
 public class FrmMain extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
 	private JPanel jContentPane = null;
 	private JButton btnImporter = null;
+	private JButton btnExtraire = null;
 	private JLabel labVersion = null;
 	private JLabel labMaintenance = null;
 	
@@ -63,6 +67,7 @@ public class FrmMain extends JFrame {
 			jContentPane = new JPanel();
 			jContentPane.setLayout(null);
 			jContentPane.add(getBtnImporter(), null);
+			jContentPane.add(getBtnExtraire(), null);
 			labVersion = new JLabel("Version ");
 			labVersion.setBounds(new Rectangle(10, 446, 90, 20));
 			labVersion.setFont(new Font("Arial", Font.BOLD, 10));
@@ -82,7 +87,6 @@ public class FrmMain extends JFrame {
 	private JButton getBtnImporter() {
 		if (btnImporter == null) {
 			btnImporter = new JButton("Importer");
-			btnImporter.setFont(new Font("Arial", Font.PLAIN, 12));
 			btnImporter.setBounds(new Rectangle(27, 37, 206, 49));
 			btnImporter.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -93,6 +97,31 @@ public class FrmMain extends JFrame {
 			});
 		}
 		return btnImporter;
+	}
+	
+	private JButton getBtnExtraire() {
+		if (btnExtraire == null) {
+			btnExtraire = new JButton("Extraire");
+			btnExtraire.setBounds(new Rectangle(27, 103, 206, 49));
+			btnExtraire.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent e) {
+					
+					String url = "http://www.h4l9000.com/WsData.asmx";
+					String namespace = "http://www.h4l9000.com/";
+					String methode = "ListeGlobal";
+					
+					MyWsDataset ds = new MyWsDataset(url, namespace, methode, token);
+					
+					NodeList list = ds.getDocument().getElementsByTagName("nom");
+					
+					for (int i=0; i < list.getLength(); i++){
+						System.out.println(i + " // " + list.item(i).getTextContent());
+					}
+					
+				}
+			});
+		}
+		return btnExtraire;
 	}
 	
 	public String getToken(){

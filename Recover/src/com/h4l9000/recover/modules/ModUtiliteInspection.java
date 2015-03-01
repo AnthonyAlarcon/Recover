@@ -37,7 +37,8 @@ public class ModUtiliteInspection {
 				
 				ModFormatDate fd = new ModFormatDate();
 				String format_date_insp = fd.getFormatDate(date_inspection);
-				System.out.println("Inspection : " + format_date_insp);
+				
+//				System.out.println("Inspection : " + format_date_insp);
 				
 				Date format_date_acces_ech = new SimpleDateFormat("dd/MM/yyyy").parse(date_acces_ech);
 				Date format_date_pro = new SimpleDateFormat("dd/MM/yyyy").parse(date_pro);
@@ -50,7 +51,8 @@ public class ModUtiliteInspection {
 				}
 				
 				rentree_acces_ech = calendar.get(Calendar.YEAR) + "-09-01";
-				System.out.println("Date Acces Ech = " + date_acces_ech + " / Rentrée " + rentree_acces_ech);
+				
+//				System.out.println("Date Acces Ech = " + date_acces_ech + " / Rentrée " + rentree_acces_ech);
 				
 				// --- Traitement de la date de promotion
 				calendar.setTime(format_date_pro);
@@ -60,14 +62,16 @@ public class ModUtiliteInspection {
 				}
 				
 				rentree_pro = calendar.get(Calendar.YEAR) + "-09-01";
-				System.out.println("Date Pro = " + date_pro + " / Rentrée " + rentree_pro);
+				
+//				System.out.println("Date Pro = " + date_pro + " / Rentrée " + rentree_pro);
 				
 				if ((rentree_acces_ech.compareTo(format_date_insp)<0) && (rentree_pro.compareTo(format_date_insp)>0)){
 					resultat = "OUI";
 				} else {
 					resultat = "NON";
 				}
-				System.out.println("Comparaison ." + rentree_acces_ech + ".  ." + format_date_insp + ".  ." + rentree_pro + ".");
+				
+//				System.out.println("Comparaison ." + rentree_acces_ech + ".  ." + format_date_insp + ".  ." + rentree_pro + ".");
 				
 			} else {
 				resultat = "NA";
