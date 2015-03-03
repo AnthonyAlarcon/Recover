@@ -1,6 +1,5 @@
 package com.h4l9000.recover.ihm;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -10,6 +9,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.Vector;
 
+import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -17,8 +17,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
-import javax.swing.border.EmptyBorder;
 
 import com.h4l9000.recover.modules.ModFiltre;
 import com.h4l9000.recover.modules.ModFormatDate;
@@ -32,6 +32,7 @@ import com.h4l9000.recover.ws.MyWsAjoutInspection;
 import com.h4l9000.recover.ws.MyWsAjoutNotation;
 import com.h4l9000.recover.ws.MyWsAjoutPromotion;
 import com.h4l9000.recover.ws.MyWsAjoutRattachement;
+import com.h4l9000.recover.ws.MyWsDataReset;
 
 import javax.swing.JScrollPane;
 import javax.swing.JList;
@@ -78,11 +79,15 @@ public class FrmImporter extends JFrame {
 			labEchelon.setBounds(new Rectangle(112, 320, 50, 30));
 			labEchelon.setText("");
 			labEchelon.setFont(new Font("Arial", Font.PLAIN, 12));
+			labEchelon.setHorizontalAlignment(SwingConstants.CENTER);
+			labEchelon.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 			jContentPane.add(labEchelon, null);
 			labPage = new JLabel();
-			labPage.setBounds(new Rectangle(179, 320, 50, 30));
+			labPage.setBounds(new Rectangle(172, 320, 50, 30));
 			labPage.setText("");
 			labPage.setFont(new Font("Arial", Font.PLAIN, 12));
+			labPage.setHorizontalAlignment(SwingConstants.CENTER);
+			labPage.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 			jContentPane.add(labPage, null);
 		}
 		return jContentPane;
@@ -216,9 +221,18 @@ public class FrmImporter extends JFrame {
 										
 										setNewMessage("Chargement terminé : " + vecLignes.size() + " ligne(s) trouvée(s)");
 										
+										// --- RESET des données ---								
+										MyWsDataReset reset = new MyWsDataReset("http://www.h4l9000.com/WsDataImport.asmx", "http://www.h4l9000.com/", "ResetData", parent.getToken());
+										String reponse_reset = reset.getSingle("ResetDataResult");
+										
+										if (reponse_reset.compareTo("OK")==0){
+											setNewMessage("RESET des données... OK");
+										} else {
+											setNewMessage("--> Erreur sur RESET");
+											System.out.println("### ResetData > " + reponse_reset);
+										}
+										
 										setNewMessage("Traitement des données...");
-										
-										
 										
 										numero_page = "";
 										

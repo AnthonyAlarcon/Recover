@@ -7,7 +7,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.soap.MessageFactory;
 import javax.xml.soap.MimeHeaders;
-import javax.xml.soap.SOAPBody;
 import javax.xml.soap.SOAPConnection;
 import javax.xml.soap.SOAPConnectionFactory;
 import javax.xml.soap.SOAPElement;
@@ -24,7 +23,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
-public class MyWsAjoutAgent {
+public class MyWsDataReset {
 
 	private SOAPConnectionFactory soapConnectionFactory  = null;
 	private SOAPConnection soapConnection = null;
@@ -35,15 +34,10 @@ public class MyWsAjoutAgent {
     
     private static String token = "";
     
-    private static String nom = "";
-    private static String prenom = "";
-    private static String date_naissance = "";
-    private static String sexe = "";
-    
     
     private Document docReponse = null;
     
-    public MyWsAjoutAgent(String strURL, String strNameSpace, String strMethodeWeb, String strToken, String strNom, String strPrenom, String strDateNaissance, String strSexe){
+    public MyWsDataReset(String strURL, String strNameSpace, String strMethodeWeb, String strToken){
     	try {
 			// --- Enregistrement des variables ---
 			url = strURL;
@@ -52,17 +46,12 @@ public class MyWsAjoutAgent {
 			
 			token = strToken;
 			
-			nom = strNom;
-			prenom = strPrenom;
-			date_naissance = strDateNaissance;
-			sexe = strSexe;
-			
 			// --- Création de la connexion SOAP ---
 	        soapConnectionFactory = SOAPConnectionFactory.newInstance();
 	        soapConnection = soapConnectionFactory.createConnection();
 
 	        // --- Envoi du message SOAP au serveur ---    
-	        SOAPMessage soapResponse = soapConnection.call(createSOAPRequest(token, nom, prenom, date_naissance, sexe), url);
+	        SOAPMessage soapResponse = soapConnection.call(createSOAPRequest(token), url);
 	        
 	        // --- On transforme la réponse SOAP en chaine de caractères ---
 	        String reponse_xml = getReponse(soapResponse);
@@ -72,11 +61,11 @@ public class MyWsAjoutAgent {
 	        docReponse = generateDocument(reponse_xml);
 	        		
 		} catch (Exception ex){
-			System.out.println("### MyWsAuthentification ### Erreur Envoi : " + ex.toString());
+			System.out.println("### MyWsDataReset ### Erreur Envoi : " + ex.toString());
 		}
     }
     
-    private static SOAPMessage createSOAPRequest(String strAuthenticatedToken, String strNom, String strPrenom, String strDateNaissance, String strSexe) throws Exception {
+    private static SOAPMessage createSOAPRequest(String strAuthenticatedToken) throws Exception {
         MessageFactory messageFactory = MessageFactory.newInstance();
         SOAPMessage soapMessage = messageFactory.createMessage();
         SOAPPart soapPart = soapMessage.getSOAPPart();
@@ -94,16 +83,16 @@ public class MyWsAjoutAgent {
         SOAPElement soapBodyElem1 = soapHeadElem.addChildElement("AuthenticatedToken", "example");
         soapBodyElem1.addTextNode(strAuthenticatedToken);
         
-        SOAPBody soapBody = envelope.getBody();
-        SOAPElement soapBodyElem_var = soapBody.addChildElement("AjoutAgent", "example");
-        SOAPElement soapBodyElem_var1 = soapBodyElem_var.addChildElement("strNom", "example");
-        soapBodyElem_var1.addTextNode(strNom);
-        SOAPElement soapBodyElem_var2 = soapBodyElem_var.addChildElement("strPrenom", "example");
-        soapBodyElem_var2.addTextNode(strPrenom);
-        SOAPElement soapBodyElem_var3 = soapBodyElem_var.addChildElement("strDateNaissance", "example");
-        soapBodyElem_var3.addTextNode(strDateNaissance);
-        SOAPElement soapBodyElem_var4 = soapBodyElem_var.addChildElement("strSexe", "example");
-        soapBodyElem_var4.addTextNode(strSexe);
+//        SOAPBody soapBody = envelope.getBody();
+//        SOAPElement soapBodyElem_var = soapBody.addChildElement("AjoutAgent", "example");
+//        SOAPElement soapBodyElem_var1 = soapBodyElem_var.addChildElement("strNom", "example");
+//        soapBodyElem_var1.addTextNode(strNom);
+//        SOAPElement soapBodyElem_var2 = soapBodyElem_var.addChildElement("strPrenom", "example");
+//        soapBodyElem_var2.addTextNode(strPrenom);
+//        SOAPElement soapBodyElem_var3 = soapBodyElem_var.addChildElement("strDateNaissance", "example");
+//        soapBodyElem_var3.addTextNode(strDateNaissance);
+//        SOAPElement soapBodyElem_var4 = soapBodyElem_var.addChildElement("strSexe", "example");
+//        soapBodyElem_var4.addTextNode(strSexe);
 
         
         /*
@@ -146,7 +135,7 @@ public class MyWsAjoutAgent {
 	        xml = sb.toString();
 	        
 		} catch (Exception ex){
-			System.out.println("### MyWsAuthentification ### Erreur getReponse : " + ex.toString());
+			System.out.println("### MyWsDataReset ### Erreur getReponse : " + ex.toString());
 		}
         
         return xml;
@@ -165,7 +154,7 @@ public class MyWsAjoutAgent {
 	        doc = builder.parse(is);
 	        
 		} catch (Exception ex){
-			System.out.println("### MyWsDataset ### Erreur getDocument : " + ex.toString());
+			System.out.println("### MyWsDataReset ### Erreur getDocument : " + ex.toString());
 		}
 
         return doc;
@@ -180,6 +169,5 @@ public class MyWsAjoutAgent {
 		
 		return list.item(0).getTextContent().toString();
 	}
-    
-    
+	
 }

@@ -1,11 +1,17 @@
 package com.h4l9000.recover.ihm;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Rectangle;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -15,6 +21,7 @@ import javax.swing.SwingUtilities;
 
 import org.w3c.dom.NodeList;
 
+import com.h4l9000.recover.modules.ModFiltre;
 import com.h4l9000.recover.modules.ModGeneral;
 import com.h4l9000.recover.threads.ThreadMaintenance;
 import com.h4l9000.recover.ws.MyWsDataset;
@@ -106,16 +113,73 @@ public class FrmMain extends JFrame {
 			btnExtraire.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					
-					String url = "http://www.h4l9000.com/WsData.asmx";
-					String namespace = "http://www.h4l9000.com/";
-					String methode = "ListeGlobal";
-					
-					MyWsDataset ds = new MyWsDataset(url, namespace, methode, token);
-					
-					NodeList list = ds.getDocument().getElementsByTagName("nom");
-					
-					for (int i=0; i < list.getLength(); i++){
-						System.out.println(i + " // " + list.item(i).getTextContent());
+					try {
+						// Paramétrage du FileChooser
+						JFileChooser fc = new JFileChooser();
+						fc.setAcceptAllFileFilterUsed(false);					
+						fc.setPreferredSize(new Dimension(600,400));
+																				
+						// Filtre
+						ModFiltre filtreCSV = new ModFiltre(new String[]{"csv","CSV"},"Fichier CSV (*.csv | *.CSV)");
+						fc.addChoosableFileFilter(filtreCSV);
+						fc.setSelectedFile(new File("C:/Export.csv"));
+						
+						int returnVal = fc.showSaveDialog(FrmMain.this);
+						
+						if (returnVal == JFileChooser.APPROVE_OPTION) {
+							String strFichier = fc.getSelectedFile().getAbsolutePath();
+							
+							String url = "http://www.h4l9000.com/WsData.asmx";
+							String namespace = "http://www.h4l9000.com/";
+							String methode = "ListeGlobal";
+							
+							MyWsDataset ds = new MyWsDataset(url, namespace, methode, token);
+							
+							NodeList list_echelon = ds.getDocument().getElementsByTagName("echelon");
+							NodeList list_page = ds.getDocument().getElementsByTagName("page");
+							NodeList list_position = ds.getDocument().getElementsByTagName("position");
+							NodeList list_nom = ds.getDocument().getElementsByTagName("nom");
+							NodeList list_prenom = ds.getDocument().getElementsByTagName("prenom");
+							NodeList list_date_naissance = ds.getDocument().getElementsByTagName("date_naissance");
+							NodeList list_sexe = ds.getDocument().getElementsByTagName("sexe");
+							NodeList list_date_acces_ech = ds.getDocument().getElementsByTagName("date_acces_ech");
+							NodeList list_note_insp = ds.getDocument().getElementsByTagName("note_insp");
+							NodeList list_utilite = ds.getDocument().getElementsByTagName("utilite");
+							NodeList list_note_admin = ds.getDocument().getElementsByTagName("note_admin");
+							NodeList list_note_peda = ds.getDocument().getElementsByTagName("note_peda");
+							
+							// Création du fichier
+							PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(new File(strFichier))));
+							out.println("echelon;page;position;nom;prenom;date_naissance;sexe;date_acces_ech;note_insp;utilite;note_admin;note_peda;");
+							
+							String export = "";
+							
+							for (int i=0; i < list_nom.getLength(); i++){
+								
+								export = list_echelon.item(i).getTextContent() + ";";
+								export = export + list_page.item(i).getTextContent() + ";";
+								export = export + list_position.item(i).getTextContent() + ";";
+								export = export + list_nom.item(i).getTextContent() + ";";
+								export = export + list_prenom.item(i).getTextContent() + ";";
+								export = export + list_date_naissance.item(i).getTextContent().substring(0, 10) + ";";
+								export = export + list_sexe.item(i).getTextContent() + ";";
+								export = export + list_date_acces_ech.item(i).getTextContent().substring(0, 10) + ";";
+								export = export + list_note_insp.item(i).getTextContent() + ";";
+								export = export + list_utilite.item(i).getTextContent() + ";";
+								export = export + list_note_admin.item(i).getTextContent() + ";";
+								export = export + list_note_peda.item(i).getTextContent() + ";";
+								
+								out.println(export);
+							}
+							
+							// Fermeture du fichier
+							out.close();
+							
+							JOptionPane.showMessageDialog(FrmMain.this, "Extraction terminée", "Recover", JOptionPane.INFORMATION_MESSAGE);
+						}
+						
+					} catch (Exception ex) {
+						JOptionPane.showMessageDialog(FrmMain.this, "Erreur Extraction : " + ex.toString(), "Recover", JOptionPane.ERROR_MESSAGE);
 					}
 					
 				}
