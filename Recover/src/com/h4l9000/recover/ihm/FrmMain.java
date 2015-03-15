@@ -135,39 +135,92 @@ public class FrmMain extends JFrame {
 							
 							MyWsDataset ds = new MyWsDataset(url, namespace, methode, token);
 							
-							NodeList list_echelon = ds.getDocument().getElementsByTagName("echelon");
-							NodeList list_page = ds.getDocument().getElementsByTagName("page");
-							NodeList list_position = ds.getDocument().getElementsByTagName("position");
 							NodeList list_nom = ds.getDocument().getElementsByTagName("nom");
 							NodeList list_prenom = ds.getDocument().getElementsByTagName("prenom");
 							NodeList list_date_naissance = ds.getDocument().getElementsByTagName("date_naissance");
 							NodeList list_sexe = ds.getDocument().getElementsByTagName("sexe");
+							NodeList list_echelon = ds.getDocument().getElementsByTagName("echelon");
+							NodeList list_page = ds.getDocument().getElementsByTagName("page");
+							NodeList list_position = ds.getDocument().getElementsByTagName("position");
+							
+							NodeList list_rne = ds.getDocument().getElementsByTagName("rne");
+							NodeList list_departement = ds.getDocument().getElementsByTagName("departement");
+							NodeList list_type_etablissement = ds.getDocument().getElementsByTagName("type_etablissement");
+							
 							NodeList list_date_acces_ech = ds.getDocument().getElementsByTagName("date_acces_ech");
+							NodeList list_mode_acces_ech = ds.getDocument().getElementsByTagName("mode_acces_ech");
 							NodeList list_note_insp = ds.getDocument().getElementsByTagName("note_insp");
+							NodeList list_date_insp = ds.getDocument().getElementsByTagName("date_insp");
 							NodeList list_utilite = ds.getDocument().getElementsByTagName("utilite");
 							NodeList list_note_admin = ds.getDocument().getElementsByTagName("note_admin");
 							NodeList list_note_peda = ds.getDocument().getElementsByTagName("note_peda");
 							
+							NodeList list_crit_anc_corps = ds.getDocument().getElementsByTagName("crit_anc_corps");
+							NodeList list_crit_anc_ech = ds.getDocument().getElementsByTagName("crit_anc_ech");
+							NodeList list_crit_mode_acces_ech = ds.getDocument().getElementsByTagName("crit_mode_acces_ech");
+							NodeList list_bareme = ds.getDocument().getElementsByTagName("bareme");
+							NodeList list_syn_date_pro = ds.getDocument().getElementsByTagName("syn_date_pro");
+							NodeList list_syn_mode_pro = ds.getDocument().getElementsByTagName("syn_mode_pro");
+							
 							// Création du fichier
 							PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(new File(strFichier))));
-							out.println("echelon;page;position;nom;prenom;date_naissance;sexe;date_acces_ech;note_insp;utilite;note_admin;note_peda;");
+							out.println("nom;prenom;date_naissance;sexe;echelon;page;position;rne;departement;type_etablissement;date_acces_ech;mode_acces_ech;note_insp;date_insp;utilite;note_admin;note_peda;delta_peda;crit_anc_corps;crit_anc_ech;crit_mode_acces_ech;bareme;syn_date_pro;syn_mode_pro");
 							
 							String export = "";
 							
+							String note_insp = "";
+							String note_peda = "";
+							float delta_peda = 0f;
+							String result_delta_peda = "";
+							
 							for (int i=0; i < list_nom.getLength(); i++){
+																
+								// --- Reset des variables ---
+								note_insp = "";
+								note_peda = "";
+								delta_peda = 0f;
+								result_delta_peda = "";
 								
-								export = list_echelon.item(i).getTextContent() + ";";
-								export = export + list_page.item(i).getTextContent() + ";";
-								export = export + list_position.item(i).getTextContent() + ";";
-								export = export + list_nom.item(i).getTextContent() + ";";
+								export = list_nom.item(i).getTextContent() + ";";
 								export = export + list_prenom.item(i).getTextContent() + ";";
 								export = export + list_date_naissance.item(i).getTextContent().substring(0, 10) + ";";
 								export = export + list_sexe.item(i).getTextContent() + ";";
+								export = export + list_echelon.item(i).getTextContent() + ";";
+								export = export + list_page.item(i).getTextContent() + ";";
+								export = export + list_position.item(i).getTextContent() + ";";
+								
+								export = export + list_rne.item(i).getTextContent() + ";";
+								export = export + list_departement.item(i).getTextContent() + ";";
+								export = export + list_type_etablissement.item(i).getTextContent() + ";";
+																
 								export = export + list_date_acces_ech.item(i).getTextContent().substring(0, 10) + ";";
-								export = export + list_note_insp.item(i).getTextContent() + ";";
+								export = export + list_mode_acces_ech.item(i).getTextContent() + ";";
+								
+								note_insp = list_note_insp.item(i).getTextContent();
+								export = export + note_insp + ";";
+								
+								export = export + list_date_insp.item(i).getTextContent().substring(0, 10) + ";";
 								export = export + list_utilite.item(i).getTextContent() + ";";
 								export = export + list_note_admin.item(i).getTextContent() + ";";
-								export = export + list_note_peda.item(i).getTextContent() + ";";
+								
+								note_peda = list_note_peda.item(i).getTextContent();
+								export = export + note_peda + ";";
+								
+								// --- Calcul du delta de note pédagogique ---
+								if (note_insp.compareTo("-1.00")!=0){
+									delta_peda = Float.valueOf(note_peda) - Float.valueOf(note_insp);
+									result_delta_peda = String.valueOf(delta_peda);
+								} else {
+									result_delta_peda = "NA";
+								}
+								export = export + result_delta_peda + ";";
+								
+								export = export + list_crit_anc_corps.item(i).getTextContent() + ";";
+								export = export + list_crit_anc_ech.item(i).getTextContent() + ";";
+								export = export + list_crit_mode_acces_ech.item(i).getTextContent() + ";";
+								export = export + list_bareme.item(i).getTextContent() + ";";
+								export = export + list_syn_date_pro.item(i).getTextContent().substring(0, 10) + ";";
+								export = export + list_syn_mode_pro.item(i).getTextContent() + ";";
 								
 								out.println(export);
 							}

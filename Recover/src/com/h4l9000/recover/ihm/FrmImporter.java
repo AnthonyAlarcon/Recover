@@ -28,6 +28,7 @@ import com.h4l9000.recover.modules.ModUtiliteInspection;
 import com.h4l9000.recover.ws.MyWsAjoutAgent;
 import com.h4l9000.recover.ws.MyWsAjoutAnciennete;
 import com.h4l9000.recover.ws.MyWsAjoutEchelon;
+import com.h4l9000.recover.ws.MyWsAjoutEtablissement;
 import com.h4l9000.recover.ws.MyWsAjoutInspection;
 import com.h4l9000.recover.ws.MyWsAjoutNotation;
 import com.h4l9000.recover.ws.MyWsAjoutPromotion;
@@ -171,6 +172,8 @@ public class FrmImporter extends JFrame {
 							String bareme = "";
 							
 							String rne = "";
+							String departement = "";
+							String type_etablissement = "";
 							
 							ModFiltre filtreTXT = new ModFiltre(new String[]{"txt","TXT"}, "Fichier texte (*.txt | *.TXT)");
 							
@@ -299,8 +302,13 @@ public class FrmImporter extends JFrame {
 												nb_agents = nb_agents + 1;
 												
 												nom = body.getNom(ligne);
+												
 												rne = body.getRne(ligne);
-												String type_etablissement = body.getTypeEtablissement(ligne);
+												if (rne.length()>2){
+													departement = rne.substring(0, 3);
+												}
+																								
+												type_etablissement = body.getTypeEtablissement(ligne);
 												ags = body.getAgs(ligne);
 												date_acces_ech = body.getDateAccesEch(ligne);
 												pro_gc = body.getProGc(ligne);
@@ -369,6 +377,13 @@ public class FrmImporter extends JFrame {
 													System.out.println("### AjoutAgent > " + i + "   ." + reponse_ajout_agent + ".");
 												}
 												
+												MyWsAjoutEtablissement etablissement = new MyWsAjoutEtablissement("http://www.h4l9000.com/WsDataImport.asmx", "http://www.h4l9000.com/", "AjoutEtablissement", parent.getToken(), rne, "", departement, type_etablissement);
+												String reponse_ajout_etablissement = etablissement.getSingle("AjoutEtablissementResult");
+												
+												if (reponse_ajout_etablissement.compareTo("OK")!=0){
+													setNewMessage("--> Erreur sur ETABLISSEMENT ." + echelon + ". ." + position + ".");
+													System.out.println("### AjoutEtablissement > " + i + "   ." + reponse_ajout_etablissement + ".");
+												}												
 												
 												MyWsAjoutEchelon ech = new MyWsAjoutEchelon("http://www.h4l9000.com/WsDataImport.asmx", "http://www.h4l9000.com/", "AjoutEchelon", parent.getToken(), date_min_periode + "_" + date_max_periode, academie, corps, nom, prenom, fd.getFormatDate(date_naissance), echelon, fd.getFormatDate(date_acces_ech), mode_acces_ech, numero_page, String.valueOf(position));
 												String reponse_ajout_ech = ech.getSingle("AjoutEchelonResult");
